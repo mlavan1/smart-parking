@@ -2,13 +2,20 @@
 
 @section('main')
     <div class="pagetitle">
-        <h1>Company Parking Slots</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item active">All Slots</li>
-            </ol>
-        </nav>
+        <div class="row">
+            <div class="col">
+                <h1>Company Parking Slots</h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active">All Slots</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col d-flex justify-content-end align-items-start">
+                <button type="button" class="btn btn-primary">Add New Slot</button>
+            </div>
+        </div>
     </div><!-- End Page Title -->
 
     <section class="section">
