@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -34,7 +35,13 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/search', [SlotsController::class, 'index'])->name('slots.view');
+Route::get('/details',function(){
+    return view('details');
+})->name('details');
 Route::post('/book-parking', [SlotsController::class, 'book'])->name('book.parking');
 // Route::post('search', [SlotsController::class, 'searchslotsview']);
 require __DIR__.'/auth.php';
 
+// Admin routes
+
+Route::get('/all-slots',[AdminController::class, 'viewAllSlots']);

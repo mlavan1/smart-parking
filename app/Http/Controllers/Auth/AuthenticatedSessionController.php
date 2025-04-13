@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Session;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -28,6 +29,12 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        // if (Session::has('selected_slots') && Session::has('url.intended')){
+        //     $preselectedSlots = session('selected_slots', []);
+        //     return response()->view('search',compact("preselectedSlots"));
+        // }
+
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }

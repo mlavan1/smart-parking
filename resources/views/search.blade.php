@@ -23,6 +23,10 @@
             @csrf
             <input type="hidden" name="slots" id="selectedSlots" value="">
             <div class="slots-container">
+                @php
+                    $preselectedSlots = session('selected_slots', []);
+                @endphp
+
                 @foreach ($slots as $key => $slot)
                     <div class="slot {{ $slot->status === 'open' ? 'open' : ($slot->status === 'parked' ? 'booked' : 'pending') }}"
                         data-id="{{ $slot->name }}">
@@ -38,11 +42,26 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
     <script>
+        const preselectedSlots = @json($preselectedSlots ?? []);
+
         $(document).ready(function() {
             const $slots = $(".slot.open");
             const $bookButton = $("#bookButton");
             const $selectedSlotsInput = $("#selectedSlots");
             let selectedSlots = [];
+
+            if (preselectedSlots.length > 0) {
+                preselectedSlots.forEach(slotId => {
+                    const $slotEl = $(`.slot[data-id="${slotId}"]`);
+                    if ($slotEl.length) {
+                        $slotEl.addClass("selected");
+                        selectedSlots.push(slotId);
+                    }
+                });
+
+                $selectedSlotsInput.val(selectedSlots.join(","));
+                $bookButton.prop("disabled", selectedSlots.length === 0);
+            }
 
             $slots.on("click", function() {
                 const slotId = $(this).data("id");

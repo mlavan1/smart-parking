@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Model\searchslot;
-
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 
 class SlotsController extends Controller
@@ -17,16 +18,23 @@ class SlotsController extends Controller
         $time = $request->query('time');
         $slots = \DB::table('slots')->get();
 
-        return view('search',compact('slots'));
+
+        return view('search', compact('slots'));
     }
+
     public function book(Request $request)
-{
+    {
 
-    $selectedSlots = $request->input('slots');
-    $slots = explode(',', $request->input('slots'));
-    dd( $slots);
+        $selectedSlots = $request->input('slots');
+        $slots = explode(',', $request->input('slots'));
 
+        Session::put('selected_slots', $slots);
 
-    return response()->json(['message' => 'Booking successful test!']);
-}
+        if (auth()->check()) {
+            return redirect()->route('details');
+        }
+        Redirect::setIntendedUrl(route('slots.view'));
+
+        return redirect("/login");
+    }
 }

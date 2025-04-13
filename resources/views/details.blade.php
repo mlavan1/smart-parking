@@ -1,216 +1,175 @@
 @extends('layouts.layout')
 
 @section('main')
-<style>
-    @media (min-width: 1025px) {
-.h-custom {
-height: 100vh !important;
-}
-}
-.card-registration .select-input.form-control[readonly]:not([disabled]) {
-font-size: 1rem;
-line-height: 2.15;
-padding-left: .75em;
-padding-right: .75em;
-}
-.card-registration .select-arrow {
-top: 13px;
-}
+    <style>
+        a.pay_now {
+            background: rgb(29, 29, 28);
+            color: white;
+            padding: 10px 30px;
+            border-radius: 5px;
+            transition: background 0.3s ease-in-out
+        }
 
-.gradient-custom-2 {
-/* fallback for old browsers */
-background: #a1c4fd;
+        a.pay_now:hover {
+            background: rgb(74, 75, 78);
+        }
 
-/* Chrome 10-25, Safari 5.1-6 */
-background: -webkit-linear-gradient(to right, rgba(161, 196, 253, 1), rgba(194, 233, 251, 1));
+        h3.sub_heading {
+            font-size: 24px;
+            font-weight: 600;
+        }
 
-/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-background: linear-gradient(to right, rgba(161, 196, 253, 1), rgba(194, 233, 251, 1))
-}
+        input[type="text"] {
+            height: 35px
+        }
 
-.bg-indigo {
-background-color: #4835d4;
-}
-@media (min-width: 992px) {
-.card-registration-2 .bg-indigo {
-border-top-right-radius: 15px;
-border-bottom-right-radius: 15px;
-}
-}
-@media (max-width: 991px) {
-.card-registration-2 .bg-indigo {
-border-bottom-left-radius: 15px;
-border-bottom-right-radius: 15px;
-}
-}
-</style>
-<section class="h-100 h-custom gradient-custom-2">
-    <div class="container py-5 h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-12">
-          <div class="card card-registration card-registration-2" style="border-radius: 15px;">
-            <div class="card-body p-0">
-              <div class="row g-0">
-                <div class="col-lg-6">
-                  <div class="p-5">
-                    <h3 class="fw-normal mb-5" style="color: #4835d4;">General Infomation</h3>
+        input[type="text"]:focus {
+            box-shadow: none;
+            border: 1px solid black
+        }
 
-                    <div class="mb-4 pb-2">
-                      <select data-mdb-select-init>
-                        <option value="1">Title</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                        <option value="4">Four</option>
-                      </select>
-                    </div>
+        @media (min-width: 1025px) {}
 
-                    <div class="row">
-                      <div class="col-md-6 mb-4 pb-2">
+        .gradient-custom-2 {
+            background: linear-gradient(to right, rgb(3, 34, 83), rgba(194, 233, 251, 1))
+        }
 
-                        <div data-mdb-input-init class="form-outline">
-                          <input type="text" id="form3Examplev2" class="form-control form-control-lg" />
-                          <label class="form-label" for="form3Examplev2">First name</label>
+        .bg-indigo {
+            background-color: #02304a;
+        }
+
+        @media (min-width: 992px) {
+            .card-registration-2 .bg-indigo {
+                border-top-right-radius: 15px;
+                border-bottom-right-radius: 15px;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .card-registration-2 .bg-indigo {
+                border-bottom-left-radius: 15px;
+                border-bottom-right-radius: 15px;
+            }
+        }
+    </style>
+    <section class="h-100 gradient-custom-2">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12">
+                    <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                        <div class="card-body p-0">
+                            <div class="row g-0">
+                                <div class="col-lg-6">
+                                    <div class="p-5">
+                                        <h3 class="sub_heading fw-normal mb-4" style="color: #02304a;">General Infomation
+                                        </h3>
+
+                                        <div class="row">
+                                            <div class="col-md-12 mb-4 pb-2">
+                                                <div data-mdb-input-init class="form-outline">
+                                                    <label class="form-label" for="form3Examplev2">Full name</label>
+                                                    <input type="text" id="form3Examplev2"
+                                                        class="form-control form-control-lg" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4 pb-2">
+                                                <div data-mdb-input-init class="form-outline">
+                                                    <label class="form-label" for="form3Examplev2">E-mail</label>
+                                                    <input type="text" id="form3Examplev2"
+                                                        class="form-control form-control-lg" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-4 pb-2">
+                                                <div data-mdb-input-init class="form-outline">
+                                                    <label class="form-label" for="form3Examplev2">Contact no</label>
+                                                    <input type="text" id="form3Examplev2"
+                                                        class="form-control form-control-lg" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h3 class="sub_heading fw-normal mb-4" style="color: #02304a;">Vehicle Infomation
+                                        </h3>
+
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4 pb-2">
+                                                <div data-mdb-input-init class="form-outline">
+                                                    <label class="form-label" for="form3Examplev2">Vehicle Make</label>
+                                                    <input type="text" id="form3Examplev2"
+                                                        class="form-control form-control-lg" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-4 pb-2">
+                                                <div data-mdb-input-init class="form-outline">
+                                                    <label class="form-label" for="form3Examplev2">Vehicle Model</label>
+                                                    <input type="text" id="form3Examplev2"
+                                                        class="form-control form-control-lg" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 mb-4 pb-2">
+                                                <div data-mdb-input-init class="form-outline">
+                                                    <label class="form-label" for="form3Examplev4">License Plate No</label>
+                                                    <input type="text" id="form3Examplev4"
+                                                        class="form-control form-control-lg" />
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12 mb-4 pb-2">
+                                                <a href="" class="pay_now">Pay Now</a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 bg-indigo text-white">
+                                    <div class="p-5">
+                                        <h3 class="sub_heading fw-normal mb-5">Booking Details</h3>
+
+                                        <div class="row p-4" style="border-bottom:1px solid rgb(255, 255, 255)">
+                                            <div class="col-md-6 ">
+                                                <div>Location : </div>
+                                            </div>
+                                            <div class="col-md-6 ">
+                                                <div>Jan -34</div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-4" style="border-bottom:1px solid rgb(255, 255, 255)">
+                                            <div class="col-md-6 ">
+                                                <div>Date : </div>
+                                            </div>
+                                            <div class="col-md-6 ">
+                                                <div>Jan -34</div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-4" style="border-bottom:1px solid rgb(255, 255, 255)">
+                                            <div class="col-md-6 ">
+                                                <div>Time : </div>
+                                            </div>
+                                            <div class="col-md-6 ">
+                                                <div>Jan -34</div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-4" style="border-bottom:1px solid rgb(255, 255, 255)">
+                                            <div class="col-md-6 ">
+                                                <div>Slots : </div>
+                                            </div>
+                                            <div class="col-md-6 ">
+                                                <div>Jan -34</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-                      </div>
-                      <div class="col-md-6 mb-4 pb-2">
-
-                        <div data-mdb-input-init class="form-outline">
-                          <input type="text" id="form3Examplev3" class="form-control form-control-lg" />
-                          <label class="form-label" for="form3Examplev3">Last name</label>
-                        </div>
-
-                      </div>
                     </div>
-
-                    <div class="mb-4 pb-2">
-                      <select data-mdb-select-init>
-                        <option value="1">Position</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                        <option value="4">Four</option>
-                      </select>
-                    </div>
-
-                    <div class="mb-4 pb-2">
-                      <div data-mdb-input-init class="form-outline">
-                        <input type="text" id="form3Examplev4" class="form-control form-control-lg" />
-                        <label class="form-label" for="form3Examplev4">Position</label>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-md-6 mb-4 pb-2 mb-md-0 pb-md-0">
-
-                        <div data-mdb-input-init class="form-outline">
-                          <input type="text" id="form3Examplev5" class="form-control form-control-lg" />
-                          <label class="form-label" for="form3Examplev5">Bussines Arena</label>
-                        </div>
-
-                      </div>
-                      <div class="col-md-6">
-
-                        <select data-mdb-select-init>
-                          <option value="1">Employees</option>
-                          <option value="2">Two</option>
-                          <option value="3">Three</option>
-                          <option value="4">Four</option>
-                        </select>
-
-                      </div>
-                    </div>
-
-                  </div>
                 </div>
-                <div class="col-lg-6 bg-indigo text-white">
-                  <div class="p-5">
-                    <h3 class="fw-normal mb-5">Contact Details</h3>
-
-                    <div class="mb-4 pb-2">
-                      <div data-mdb-input-init class="form-outline form-white">
-                        <input type="text" id="form3Examplea2" class="form-control form-control-lg" />
-                        <label class="form-label" for="form3Examplea2">Street + Nr</label>
-                      </div>
-                    </div>
-
-                    <div class="mb-4 pb-2">
-                      <div data-mdb-input-init class="form-outline form-white">
-                        <input type="text" id="form3Examplea3" class="form-control form-control-lg" />
-                        <label class="form-label" for="form3Examplea3">Additional Information</label>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-md-5 mb-4 pb-2">
-
-                        <div data-mdb-input-init class="form-outline form-white">
-                          <input type="text" id="form3Examplea4" class="form-control form-control-lg" />
-                          <label class="form-label" for="form3Examplea4">Zip Code</label>
-                        </div>
-
-                      </div>
-                      <div class="col-md-7 mb-4 pb-2">
-
-                        <div data-mdb-input-init class="form-outline form-white">
-                          <input type="text" id="form3Examplea5" class="form-control form-control-lg" />
-                          <label class="form-label" for="form3Examplea5">Place</label>
-                        </div>
-
-                      </div>
-                    </div>
-
-                    <div class="mb-4 pb-2">
-                      <div data-mdb-input-init class="form-outline form-white">
-                        <input type="text" id="form3Examplea6" class="form-control form-control-lg" />
-                        <label class="form-label" for="form3Examplea6">Country</label>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-md-5 mb-4 pb-2">
-
-                        <div data-mdb-input-init class="form-outline form-white">
-                          <input type="text" id="form3Examplea7" class="form-control form-control-lg" />
-                          <label class="form-label" for="form3Examplea7">Code +</label>
-                        </div>
-
-                      </div>
-                      <div class="col-md-7 mb-4 pb-2">
-
-                        <div data-mdb-input-init class="form-outline form-white">
-                          <input type="text" id="form3Examplea8" class="form-control form-control-lg" />
-                          <label class="form-label" for="form3Examplea8">Phone Number</label>
-                        </div>
-
-                      </div>
-                    </div>
-
-                    <div class="mb-4">
-                      <div data-mdb-input-init class="form-outline form-white">
-                        <input type="text" id="form3Examplea9" class="form-control form-control-lg" />
-                        <label class="form-label" for="form3Examplea9">Your Email</label>
-                      </div>
-                    </div>
-
-                    <div class="form-check d-flex justify-content-start mb-4 pb-3">
-                      <input class="form-check-input me-3" type="checkbox" value="" id="form2Example3c" />
-                      <label class="form-check-label text-white" for="form2Example3">
-                        I do accept the <a href="#!" class="text-white"><u>Terms and Conditions</u></a> of your
-                        site.
-                      </label>
-                    </div>
-
-                    <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-light btn-lg"
-                      data-mdb-ripple-color="dark">Register</button>
-
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </section>
-
+    </section>
 @endsection
