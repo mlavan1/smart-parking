@@ -13,8 +13,13 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('vehicle_id')->nullable();
+            $table->string('name')->nullable();;
             $table->dateTime('date_time')->nullable();
-            $table->enum('status',['active','cancelled','']);
+            $table->enum('status',['active','cancelled']);
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('vehicle_id')->references('id')->on('vehicles')->onDelete('cascade');
             $table->timestamps();
         });
     }

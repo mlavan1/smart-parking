@@ -2,7 +2,7 @@
 
 @section('main')
     <style>
-        a.pay_now {
+        button.pay_now {
             background: rgb(29, 29, 28);
             color: white;
             padding: 10px 30px;
@@ -10,7 +10,7 @@
             transition: background 0.3s ease-in-out
         }
 
-        a.pay_now:hover {
+        button.pay_now:hover {
             background: rgb(74, 75, 78);
         }
 
@@ -63,68 +63,79 @@
                                     <div class="p-5">
                                         <h3 class="sub_heading fw-normal mb-4" style="color: #02304a;">General Infomation
                                         </h3>
+                                        <form action="{{ route('book.pay') }}" method="POST">
+                                            @csrf
+                                            <div class="row">
+                                                <div class="col-md-12 mb-4 pb-2">
+                                                    <div data-mdb-input-init class="form-outline">
+                                                        <label class="form-label" for="form3Examplev2">Full name</label>
+                                                        <input type="text" id="full_name" name="full_name"  value="{{  Auth::user()->name ?? ""}}"
+                                                            class="form-control form-control-lg" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-4 pb-2">
+                                                    <div data-mdb-input-init class="form-outline">
+                                                        <label class="form-label" for="form3Examplev2">E-mail</label>
+                                                        <input type="text" id="email" name="email" value="{{  Auth::user()->email ?? "" }}"
+                                                            class="form-control form-control-lg" readonly/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-4 pb-2">
+                                                    <div data-mdb-input-init class="form-outline">
+                                                        <label class="form-label" for="form3Examplev2">Contact no</label>
+                                                        <input type="text" id="contact_number" name="contact_number"  value="{{  Auth::user()->contact_number ?? "" }}"
+                                                            class="form-control form-control-lg" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h3 class="sub_heading fw-normal mb-4" style="color: #02304a;">Vehicle
+                                                Infomation
+                                            </h3>
 
-                                        <div class="row">
-                                            <div class="col-md-12 mb-4 pb-2">
-                                                <div data-mdb-input-init class="form-outline">
-                                                    <label class="form-label" for="form3Examplev2">Full name</label>
-                                                    <input type="text" id="form3Examplev2"
-                                                        class="form-control form-control-lg" />
+                                            <div class="row">
+                                                <div class="col-md-6 mb-4 pb-2">
+                                                    <div data-mdb-input-init class="form-outline">
+                                                        <label class="form-label" for="form3Examplev2">Vehicle Make</label>
+                                                        <input type="text" id="v_make" name="v_make"
+                                                            class="form-control form-control-lg" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-4 pb-2">
+                                                    <div data-mdb-input-init class="form-outline">
+                                                        <label class="form-label" for="form3Examplev2">Vehicle Model</label>
+                                                        <input type="text" id="v_model" name="v_model"
+                                                            class="form-control form-control-lg" />
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6 mb-4 pb-2">
-                                                <div data-mdb-input-init class="form-outline">
-                                                    <label class="form-label" for="form3Examplev2">E-mail</label>
-                                                    <input type="text" id="form3Examplev2"
-                                                        class="form-control form-control-lg" />
+                                            <div class="row">
+                                                <div class="col-md-6 mb-4 pb-2">
+                                                    <div data-mdb-input-init class="form-outline">
+                                                        <label class="form-label" for="form3Examplev2">Vehicle Color</label>
+                                                        <input type="text" id="v_color" name="v_color"
+                                                            class="form-control form-control-lg" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-4 pb-2">
+                                                    <div data-mdb-input-init class="form-outline">
+                                                        <label class="form-label" for="form3Examplev4">License Plate
+                                                            No</label>
+                                                        <input type="text" id="license_plate" name="license_plate"
+                                                            class="form-control form-control-lg" />
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 mb-4 pb-2">
-                                                <div data-mdb-input-init class="form-outline">
-                                                    <label class="form-label" for="form3Examplev2">Contact no</label>
-                                                    <input type="text" id="form3Examplev2"
-                                                        class="form-control form-control-lg" />
+                                            <div class="row">
+                                                <div class="col-md-12 mb-4 pb-2">
+                                                    <button type="submit" class="pay_now">Pay Now</button>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <h3 class="sub_heading fw-normal mb-4" style="color: #02304a;">Vehicle Infomation
-                                        </h3>
-
-                                        <div class="row">
-                                            <div class="col-md-6 mb-4 pb-2">
-                                                <div data-mdb-input-init class="form-outline">
-                                                    <label class="form-label" for="form3Examplev2">Vehicle Make</label>
-                                                    <input type="text" id="form3Examplev2"
-                                                        class="form-control form-control-lg" />
-                                                </div>
+                                            <div class="row">
+                                                <span class="text-danger"><strong><i>*** Book your parking with minimum of 1 hour ***</i></strong></span>
                                             </div>
-                                            <div class="col-md-6 mb-4 pb-2">
-                                                <div data-mdb-input-init class="form-outline">
-                                                    <label class="form-label" for="form3Examplev2">Vehicle Model</label>
-                                                    <input type="text" id="form3Examplev2"
-                                                        class="form-control form-control-lg" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12 mb-4 pb-2">
-                                                <div data-mdb-input-init class="form-outline">
-                                                    <label class="form-label" for="form3Examplev4">License Plate No</label>
-                                                    <input type="text" id="form3Examplev4"
-                                                        class="form-control form-control-lg" />
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-12 mb-4 pb-2">
-                                                <a href="" class="pay_now">Pay Now</a>
-                                            </div>
-                                        </div>
-
+                                        </form>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 bg-indigo text-white">

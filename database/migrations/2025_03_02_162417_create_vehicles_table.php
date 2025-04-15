@@ -14,12 +14,11 @@ return new class extends Migration
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('guest_id')->nullable();
-            $table->string('vehicle_number')->unique()->nullable();
-            $table->string('vehicle_model')->nullable();
-            $table->string('vehicle_color')->nullable();
+            $table->string('v_make')->unique()->nullable();
+            $table->string('v_model')->nullable();
+            $table->string('v_color')->nullable();
+            $table->string('license_plate')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('guest_id')->references('id')->on('guests')->onDelete('cascade');
             $table->timestamps();
         });
     }
