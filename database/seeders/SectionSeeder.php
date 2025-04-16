@@ -16,11 +16,10 @@ class SectionSeeder extends Seeder
         $sections = [];
 
         for ($i = 0; $i < 12; $i++) {
-            $letter = chr(65 + $i); 
+            $letter = chr(65 + $i);
             $sections[] = [
                 'id' => $i + 1,
                 'section_name' => 'Section ' . $letter,
-                'section_code' => $letter,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

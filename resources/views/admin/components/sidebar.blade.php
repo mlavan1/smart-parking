@@ -21,7 +21,7 @@
             </a>
           </li>
           <li>
-            <a href="add-sections">
+            <a href="sections">
               <i class="bi bi-circle"></i><span>Sections</span>
             </a>
           </li>
@@ -58,7 +58,7 @@
         </a>
         <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="charts-chartjs.html">
+            <a href="vendors">
               <i class="bi bi-circle"></i><span>Vendor Details</span>
             </a>
           </li>

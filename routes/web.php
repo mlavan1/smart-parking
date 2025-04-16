@@ -30,9 +30,17 @@ Route::middleware('auth')->group(function () {
 });
 
 // Admin Routes (can later be grouped under admin middleware if needed)
-Route::get('/slots', [AdminController::class, 'addViewSlots'])->name('admin.all-slots');
+Route::get('/slots', [AdminController::class, 'viewSlots'])->name('admin.all-slots');
 Route::post('/store-slots', [AdminController::class, 'saveOrUpdate'])->name('slots.saveOrUpdate');
 Route::delete('/slots/{slot}', [AdminController::class, 'destroy'])->name('slots.destroy');
+
+Route::get('/sections', [AdminController::class, 'viewSections'])->name('admin.all-sections');
+Route::post('/store-sections', [AdminController::class, 'sectionSaveOrUpdate'])->name('sections.saveOrUpdate');
+
+
+Route::get('/vendors', [AdminController::class, 'viewVendors'])->name('admin.all-vendors');
+Route::post('/vendors/store', [AdminController::class, 'vendorStore'])->name('vendors.store');
+
 
 // Auth routes (login, register, etc.)
 require __DIR__.'/auth.php';

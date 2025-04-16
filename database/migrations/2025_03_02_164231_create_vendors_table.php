@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('vendors', function (Blueprint $table) {
             $table->id();
-            $table->string('vendor_name')->nullable();
-            $table->string('vendor_email')->nullable();
-            $table->string('vendor_phone_number')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('organization_name')->nullable();
+            $table->string('address')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
