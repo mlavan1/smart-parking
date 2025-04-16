@@ -25,7 +25,7 @@
 @endif
     <section class="section">
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-3">
 
                 <div class="card">
                     <div class="card-body">
@@ -91,7 +91,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-8">
+            <div class="col-lg-9">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">All Vendors</h5>
@@ -100,41 +100,43 @@
                             <thead>
 
                                 <tr>
-                                    <th>
-                                        <b>N</b>ame
-                                    </th>
-                                    <th>Section</th>
-                                    <th>Status</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Contact no</th>
+                                    <th>Org. name</th>
+                                    <th>Address</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($all_slots as $slots)
+                                @foreach ($all_vendors as $vendors)
                                     <tr>
-                                        <td>{{ $slots->name }}</td>
-                                        <td>{{ $slots->section_name }}</td>
-                                        <td><span class="badge bg-success">{{ $slots->status }}</span></td>
+                                        <td>{{ $vendors->organization_name }}</td>
+                                        <td>{{ $vendors->organization_name }}</td>
+                                        <td>{{ $vendors->organization_name }}</td>
+                                        <td>{{ $vendors->organization_name }}</td>
+                                        <td><span class="badge bg-success">{{ $vendors->address }}</span></td>
                                         <td>
                                             <a type="button" class="btn btn-sm btn-warning edit-slot-btn"
 
-                                            data-id="{{ $slots->id }}"
-                                            data-name="{{ $slots->name }}"
-                                            data-section="{{ $slots->section_id }}">
+                                            data-id="{{ $vendors->id }}"
+                                            data-name="{{ $vendors->organization_name }}"
+                                            data-section="{{ $vendors->id }}">
                                             <i class=" bi bi-pencil-square"></i></a>
-                                            <form action="{{ route('slots.destroy', $slots->id) }}" method="POST" style="display:inline;">
+                                            <form action="{{ route('slots.destroy', $vendors->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger"
-                                            data-id="{{ $slots->id }}"
-                                            data-name="{{ $slots->name }}"
-                                            data-section="{{ $slots->section_id }}"
+                                            data-id="{{ $vendors->id }}"
+                                            data-name="{{ $vendors->organization_name }}"
+                                            data-section="{{ $vendors->id }}"
                                             onclick="return confirm('Are you sure?')">
                                             <i class="bi bi-trash-fill"></i></button >
                                             </form>
                                             {{-- <a type="button" class="btn btn-sm btn-secondary"
-                                            data-id="{{ $slots->id }}"
-                                            data-name="{{ $slots->name }}"
-                                            data-section="{{ $slots->section_id }}">
+                                            data-id="{{ $vendors->id }}"
+                                            data-name="{{ $vendors->name }}"
+                                            data-section="{{ $vendors->section_id }}">
                                             <i class="bi bi-stop-circle-fill"></i></a> --}}
                                         </td>
                                     </tr>

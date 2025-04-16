@@ -29,18 +29,42 @@ Route::middleware('auth')->group(function () {
     Route::post('/book-parking', [SlotsController::class, 'book'])->name('book.parking');
 });
 
-// Admin Routes (can later be grouped under admin middleware if needed)
+
+// ====================
+//     ADMIN ROUTES
+// ====================
+
+// SLOTS
+
 Route::get('/slots', [AdminController::class, 'viewSlots'])->name('admin.all-slots');
-Route::post('/store-slots', [AdminController::class, 'saveOrUpdate'])->name('slots.saveOrUpdate');
-Route::delete('/slots/{slot}', [AdminController::class, 'destroy'])->name('slots.destroy');
+Route::post('/store-slots', [AdminController::class, 'slotSaveOrUpdate'])->name('slots.saveOrUpdate');
+Route::delete('/slots/{slot}', [AdminController::class, 'slotDelete'])->name('slots.delete');
+
+// SECTIONS
 
 Route::get('/sections', [AdminController::class, 'viewSections'])->name('admin.all-sections');
 Route::post('/store-sections', [AdminController::class, 'sectionSaveOrUpdate'])->name('sections.saveOrUpdate');
 
+// VENDORS
 
 Route::get('/vendors', [AdminController::class, 'viewVendors'])->name('admin.all-vendors');
 Route::post('/vendors/store', [AdminController::class, 'vendorStore'])->name('vendors.store');
 
+// VENDOR SLOTS
 
-// Auth routes (login, register, etc.)
+Route::get('/vendor-slots', [AdminController::class, 'viewVendorSlots'])->name('admin.all-vendors-slots');
+
+// USERS
+
+Route::get('/users', [AdminController::class, 'viewUsers'])->name('admin.all-users');
+
+// CURRENT BOOKINGS
+
+Route::get('/bookings-current', [AdminController::class, 'viewCurrentBooking'])->name('admin.bookings.current');
+
+// PAST BOOKING
+
+Route::get('/bookings-past', [AdminController::class, 'viewPastBooking'])->name('admin.bookings.past');
+
+// AUTH ROUTES
 require __DIR__.'/auth.php';

@@ -24,7 +24,7 @@ class HomeController extends Controller
             }
             else if ($usertype == 'vendor')
             {
-                return view ('vendor.vendor');
+                return view ('vendor.dashboard');
             }
             else
             {
