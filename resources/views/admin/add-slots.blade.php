@@ -109,11 +109,6 @@
                                                     onclick="return confirm('Are you sure?')">
                                                     <i class="bi bi-trash-fill"></i></button>
                                             </form>
-                                            {{-- <a type="button" class="btn btn-sm btn-secondary"
-                                            data-id="{{ $slots->id }}"
-                                            data-name="{{ $slots->name }}"
-                                            data-section="{{ $slots->section_id }}">
-                                            <i class="bi bi-stop-circle-fill"></i></a> --}}
                                         </td>
                                     </tr>
                                 @endforeach

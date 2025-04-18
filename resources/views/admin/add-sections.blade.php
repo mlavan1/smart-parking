@@ -16,6 +16,13 @@
     </div><!-- End Page Title -->
     <section class="section">
         <div class="row">
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle me-1"></i>
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
             <div class="col-lg-6">
 
                 <div class="card">
@@ -76,21 +83,16 @@
                                             data-name="{{ $sections->section_name }}"
                                             data-section="{{ $sections->id }}">
                                             <i class=" bi bi-pencil-square"></i></a>
-                                            {{-- <form action="{{ route('sections.destroy', $sections->id) }}" method="POST" style="display:inline;">
+                                            <form action="{{ route('sections.delete', $sections->id) }}" method="POST"
+                                                style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger"
-                                            data-id="{{ $sections->id }}"
-                                            data-name="{{ $sections->section_name }}"
-                                            data-section="{{ $sections->id }}"
-                                            onclick="return confirm('Are you sure?')">
-                                            <i class="bi bi-trash-fill"></i></button >
-                                            </form> --}}
-                                            {{-- <a type="button" class="btn btn-sm btn-secondary"
-                                            data-id="{{ $sections->id }}"
-                                            data-name="{{ $sections->name }}"
-                                            data-section="{{ $sections->section_id }}">
-                                            <i class="bi bi-stop-circle-fill"></i></a> --}}
+                                                <button type="submit" class="btn btn-sm btn-danger"
+                                                    data-id="{{ $sections->id }}" data-name="{{ $sections->section_name }}"
+                                                    data-section="{{ $sections->id }}"
+                                                    onclick="return confirm('Are you sure?')">
+                                                    <i class="bi bi-trash-fill"></i></button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach

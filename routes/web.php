@@ -13,6 +13,10 @@ Route::view('/', 'home');
 
 Route::view('/details', 'details')->name('details');
 Route::post('/pay',[BookingController::class, 'proceedToPay'])->name('book.pay');
+Route::get('/search', [SlotsController::class, 'index'])->name('slots.view');
+
+Route::post('/book-parking', [SlotsController::class, 'book'])->name('book.parking');
+
 
 // Authenticated User Routes
 Route::middleware('auth')->group(function () {
@@ -25,8 +29,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Slot Booking
-    Route::get('/search', [SlotsController::class, 'index'])->name('slots.view');
-    Route::post('/book-parking', [SlotsController::class, 'book'])->name('book.parking');
 });
 
 
@@ -44,6 +46,7 @@ Route::delete('/slots/{slot}', [AdminController::class, 'slotDelete'])->name('sl
 
 Route::get('/sections', [AdminController::class, 'viewSections'])->name('admin.all-sections');
 Route::post('/store-sections', [AdminController::class, 'sectionSaveOrUpdate'])->name('sections.saveOrUpdate');
+Route::delete('/sections/{slot}', [AdminController::class, 'sectionDelete'])->name('sections.delete');
 
 // VENDORS
 
@@ -61,6 +64,11 @@ Route::get('/users', [AdminController::class, 'viewUsers'])->name('admin.all-use
 // CURRENT BOOKINGS
 
 Route::get('/bookings-current', [AdminController::class, 'viewCurrentBooking'])->name('admin.bookings.current');
+Route::post('/bookings/{id}/cancel', [AdminController::class, 'cancelBooking'])->name('bookings.cancel');
+Route::post('/bookings/{id}/accept', [AdminController::class, 'acceptBooking'])->name('bookings.accept');
+Route::get('/bookings/{id}/edit-date', [AdminController::class, 'editDate'])->name('bookings.editDate');
+Route::post('/bookings/{id}/update-date', [AdminController::class, 'updateDate'])->name('bookings.updateDate');
+
 
 // PAST BOOKING
 

@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Vehicle;
 use App\Models\Booking;
+use App\Models\Slot;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 
 class BookingController extends Controller
 {
@@ -27,6 +29,7 @@ class BookingController extends Controller
 
     public function proceedToPay(Request $request)
     {
+        // dd($request->all());
 
         try {
             //dd($request->all());
@@ -37,6 +40,7 @@ class BookingController extends Controller
                 'license_plate' => 'required|string|max:255',
                 'full_name'  => 'required|string|max:255',
             ]);
+
             // If validation fails, redirect back with errors
             if ($validator->fails()) {
                 return redirect()->back()
@@ -59,10 +63,23 @@ class BookingController extends Controller
             $booking->date_time = Carbon::now();
             $booking->status = 'active'; // default status
             $booking->save();
-            Log::info("saved");
 
+            $selectedSlots = Session::get('selected_slots');
+
+            if (!empty($selectedSlots)) {
+                $slots = Slot::whereIn('name', $selectedSlots)->get();
+
+                foreach ($slots as $slot) {
+                    \DB::table('booked_slots')->insert([
+                        'booking_id' => $booking->id,
+                        'slot_id' => $slot->id,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
+            }
         } catch (\Exception $e) {
-            Log::info("test");
+            Log::info("Error==>".$e);
         }
     }
 }

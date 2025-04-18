@@ -10,6 +10,8 @@ use App\Models\Slot;
 use App\Models\Section;
 use App\Models\User;
 use App\Models\Vendor;
+use App\Models\Booking;
+use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Hash;
 
@@ -31,16 +33,16 @@ class AdminController extends Controller
     public function slotSaveOrUpdate(Request $request)
     {
         try {
-            $validator = Validator::make($request->all(),[
-                'slot_name'   => ['required','string','max:255',$request->filled('slot_id') ? 'unique:slots,name,' . $request->slot_id : 'unique:slots,name'],
+            $validator = Validator::make($request->all(), [
+                'slot_name'   => ['required', 'string', 'max:255', $request->filled('slot_id') ? 'unique:slots,name,' . $request->slot_id : 'unique:slots,name'],
                 'section_id'  => 'required|exists:sections,id',
                 'slot_id'     => 'nullable|exists:slots,id',
-            ],[
+            ], [
                 'section_id.required' => "Section is required",
                 'slot_name.required' => "Name is required"
             ]);
 
-            if($validator->fails()){
+            if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
 
@@ -89,19 +91,166 @@ class AdminController extends Controller
         ]);
         if ($request->filled('section_id')) {
             // Update
-            $slot = Slot::find($request->slot_id);
+            $section = Section::find($request->section_id);
             $message = 'Section updated successfully!';
         } else {
             // Add New
-            $slot = new Section();
+            $section = new Section();
             $message = 'Section created successfully!';
         }
 
-        $slot->section_name = $request->section_name;
-        $slot->save();
+        $section->section_name = $request->section_name;
+        $section->save();
 
         return redirect()->back()->with('success', $message);
     }
+
+    public function sectionDelete($id): RedirectResponse
+    {
+        $section = Section::findOrFail($id);
+        $section->delete();
+
+        return redirect()->back()->with('success', 'Section deleted successfully!');
+    }
+
+    // BOOKING - CURRENT
+
+    public function viewCurrentBooking()
+    {
+        $all_bookings = DB::table('bookings')
+    ->join('users', 'users.id', '=', 'bookings.user_id') // Booking user
+    ->join('vehicles', 'vehicles.id', '=', 'bookings.vehicle_id')
+    ->leftJoin('booked_slots', 'booked_slots.booking_id', '=', 'bookings.id')
+    ->leftJoin('slots', 'slots.id', '=', 'booked_slots.slot_id')
+    ->leftJoin('users as slot_owners', 'slot_owners.id', '=', 'slots.user_id') // Slot owner
+    ->select(
+        'users.name as booking_user_name',
+        'users.contact_number',
+        'bookings.id',
+        'bookings.user_id',
+        'bookings.status',
+        'bookings.date_time',
+        DB::raw("CONCAT(vehicles.v_color, ' ', vehicles.v_make, ' ', vehicles.v_model) as vehicle_details"),
+        'vehicles.license_plate',
+        DB::raw("GROUP_CONCAT(DISTINCT slots.name ORDER BY slots.name ASC SEPARATOR ', ') as slot_names"),
+        'slot_owners.usertype as slot_owner_type' // <--- Your target field
+    )
+    ->where('bookings.date_time', '>', Carbon::now())
+    ->where('bookings.status', 'active')
+    ->groupBy(
+        'bookings.id',
+        'users.name',
+        'users.contact_number',
+        'bookings.user_id',
+        'bookings.status',
+        'bookings.date_time',
+        'vehicles.v_color',
+        'vehicles.v_make',
+        'vehicles.v_model',
+        'vehicles.license_plate',
+        'slot_owners.usertype'
+    )
+    ->get();
+
+
+        return view('admin.current-booking', compact('all_bookings'));
+    }
+
+    public function editDate($id)
+    {
+        $all_bookings = DB::table('bookings')
+            ->join('users', 'users.id', '=', 'bookings.user_id')
+            ->join('booked_slots', 'booked_slots.booking_id', '=', 'bookings.id')
+            ->join('slots', 'slots.id', '=', 'booked_slots.slot_id')
+            ->select(
+                'users.name',
+                'bookings.status',
+                'bookings.date_time',
+)
+            ->groupBy(
+                'users.name',
+                'bookings.status',
+                'bookings.date_time',
+            )
+            ->where('bookings.id',$id)
+            ->get();
+        $booking = Booking::findOrFail($id);
+        return view('admin.change-date', compact('all_bookings','booking'));
+    }
+
+    public function updateDate(Request $request, $id)
+    {
+        $request->validate([
+            'date_time' => 'required|date',
+        ]);
+
+        $booking = Booking::findOrFail($id);
+        $booking->date_time = $request->date_time;
+        $booking->save();
+
+        return redirect()->route('admin.bookings.current')
+            ->with('success', 'Booking date updated successfully.');
+    }
+
+
+    public function cancelBooking($id)
+    {
+        $booking = Booking::findOrFail($id);
+        $booking->status = 'cancelled';
+        $booking->save();
+
+        return redirect()->back()->with('success', 'Booking cancelled successfully.');
+    }
+
+    public function acceptBooking($id)
+    {
+        $booking = Booking::findOrFail($id);
+        $booking->status = 'active';
+        $booking->save();
+
+        return redirect()->back()->with('success', 'Booking reactivated successfully.');
+    }
+
+    // BOOKING - PAST
+
+    public function viewPastBooking()
+    {
+        $all_bookings = DB::table('bookings')
+            ->join('users', 'users.id', '=', 'bookings.user_id')
+            ->join('vehicles', 'vehicles.id', '=', 'bookings.vehicle_id')
+            ->join('booked_slots', 'booked_slots.booking_id', '=', 'bookings.id')
+            ->join('slots', 'slots.id', '=', 'booked_slots.slot_id')
+            ->select(
+                'users.name',
+                'slots.user_id as user_type',
+                'users.contact_number',
+                'bookings.id',
+                'bookings.user_id',
+                'bookings.status',
+                'bookings.date_time',
+                DB::raw("CONCAT(vehicles.v_color, ' ', vehicles.v_make, ' ', vehicles.v_model) as vehicle_details"),
+                'vehicles.license_plate',
+                DB::raw("GROUP_CONCAT(slots.name ORDER BY slots.name ASC SEPARATOR ', ') as slot_names")
+            )
+            ->where('bookings.date_time', '<', Carbon::now())
+            ->groupBy(
+                'bookings.id',
+                'slots.user_id',
+                'users.name',
+                'users.contact_number',
+                'bookings.user_id',
+                'bookings.status',
+                'bookings.date_time',
+                'vehicles.v_color',
+                'vehicles.v_make',
+                'vehicles.v_model',
+                'vehicles.license_plate'
+            )
+            ->get();
+
+        return view('admin.past-booking', compact('all_bookings'));
+    }
+
 
 
     // VENDORS
@@ -173,29 +322,5 @@ class AdminController extends Controller
             ->select('slots.id', 'slots.name', 'sections.section_name', 'sections.id as section_id', 'slots.status')
             ->get();
         return view('admin.users', compact('all_slots', 'all_sections'));
-    }
-
-    // CURRENT BOOKING
-
-    public function viewCurrentBooking()
-    {
-        $all_sections = DB::table('vendors')->get();
-        $all_slots = DB::table('slots')
-            ->join('sections', 'slots.section_id', '=', 'sections.id')
-            ->select('slots.id', 'slots.name', 'sections.section_name', 'sections.id as section_id', 'slots.status')
-            ->get();
-        return view('admin.current-booking', compact('all_slots', 'all_sections'));
-    }
-
-    // PAST BOOKING
-
-    public function viewPastBooking()
-    {
-        $all_sections = DB::table('vendors')->get();
-        $all_slots = DB::table('slots')
-            ->join('sections', 'slots.section_id', '=', 'sections.id')
-            ->select('slots.id', 'slots.name', 'sections.section_name', 'sections.id as section_id', 'slots.status')
-            ->get();
-        return view('admin.past-booking', compact('all_slots', 'all_sections'));
     }
 }
