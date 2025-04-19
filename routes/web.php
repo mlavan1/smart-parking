@@ -15,14 +15,7 @@ Route::get('/location-selection', [BookingController::class, 'viewLocationSelect
 Route::get('/auth-check', [BookingController::class, 'checkingAuthentication'])->name('auth.check');
 Route::get('/slots-selection', [BookingController::class, 'viewSlotsSelection'])->name('slots.view');
 Route::get('/booking-info', [BookingController::class, 'viewBookingDetailsPage'])->name('booking.details');
-
-
-
-
-
-Route::post('/pay',[BookingController::class, 'proceedToPay'])->name('book.pay');
-
-
+Route::post('/proceed-payment',[BookingController::class, 'proceedToPay'])->name('book.pay');
 
 // Authenticated User Routes
 Route::middleware('auth')->group(function () {

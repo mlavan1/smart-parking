@@ -126,16 +126,16 @@ class AdminController extends Controller
             ->leftJoin('slots', 'slots.id', '=', 'booked_slots.slot_id')
             ->leftJoin('users as slot_owners', 'slot_owners.id', '=', 'slots.user_id')
             ->select(
-                'users.name as booking_user_name',
-                'slots.user_id as user_type',
-                'users.contact_number',
                 'bookings.id',
                 'bookings.user_id',
                 'bookings.status',
                 'bookings.date_time',
-                DB::raw("CONCAT(vehicles.v_color, ' ', vehicles.v_make, ' ', vehicles.v_model) as vehicle_details"),
+                'users.name as booking_user_name',
+                DB::raw("CONCAT(tbl_vehicles.v_color, ' ', tbl_vehicles.v_make, ' ', tbl_vehicles.v_model) as vehicle_details"),
+                DB::raw("GROUP_CONCAT(tbl_slots.name ORDER BY tbl_slots.name ASC SEPARATOR ', ') as slot_names"),
+                'slots.user_id as user_type',
+                'users.contact_number',
                 'vehicles.license_plate',
-                DB::raw("GROUP_CONCAT(slots.name ORDER BY slots.name ASC SEPARATOR ', ') as slot_names"),
                 'slot_owners.usertype as slot_owner_type'
             )
             ->where('bookings.date_time', '>', Carbon::now())
@@ -154,16 +154,6 @@ class AdminController extends Controller
                 'slot_owners.usertype'
             )
             ->get();
-
-            // $user_types = DB::table('bookings')
-            // ->leftJoin('booked_slots', 'booked_slots.id','bookings.id')
-            // ->leftJoin('slots', 'slots.id', '=', 'booked_slots.slot_id')
-            // ->leftJoin('users','users.id','slots.user_id')
-            // ->select('users.usertype')
-            // ->get();
-
-            // dd($all_bookings);
-
 
         return view('admin.current-booking', compact('all_bookings'));
     }
@@ -240,9 +230,9 @@ class AdminController extends Controller
                 'bookings.user_id',
                 'bookings.status',
                 'bookings.date_time',
-                DB::raw("CONCAT(vehicles.v_color, ' ', vehicles.v_make, ' ', vehicles.v_model) as vehicle_details"),
+                DB::raw("CONCAT(tbl_vehicles.v_color, ' ', tbl_vehicles.v_make, ' ', tbl_vehicles.v_model) as vehicle_details"),
                 'vehicles.license_plate',
-                DB::raw("GROUP_CONCAT(slots.name ORDER BY slots.name ASC SEPARATOR ', ') as slot_names")
+                DB::raw("GROUP_CONCAT(tbl_slots.name ORDER BY tbl_slots.name ASC SEPARATOR ', ') as slot_names")
             )
             ->where('bookings.date_time', '<', Carbon::now())
             ->groupBy(

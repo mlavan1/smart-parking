@@ -64,11 +64,12 @@ class BookingController extends Controller
     {
 
 
-        $location = $request->query('location');
+        $location = $request->query('location_id');
         $date = $request->query('date');
         $time = $request->query('time');
         Session::put('date', $date);
         Session::put('time', $time);
+        Session::put('location', $location);
         $slots = DB::table('slots')->get();
 
 
@@ -94,7 +95,18 @@ class BookingController extends Controller
     }
 
     public function viewBookingDetailsPage(){
-        return view('details');
+        //dd(session()->all());
+
+        $slots_count = count(Session::get('selected_slots'));
+        $date = Session::get('date');
+        $time = Session::get('time');
+        $location = Session::get('location');
+        
+        $location_name = DB::table('locations')
+            ->where('locations.id', $location)
+            ->pluck('locations.location_name');
+
+        return view('details',compact('slots_count','time','date','location_name'));
     }
 
 

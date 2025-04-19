@@ -63,6 +63,7 @@
                                     <div class="p-5">
                                         <h3 class="sub_heading fw-normal mb-4" style="color: #02304a;">General Infomation
                                         </h3>
+
                                         <form action="{{ route('book.pay') }}" method="POST">
                                             @csrf
                                             <div class="row">
@@ -147,7 +148,7 @@
                                                 <div>Location : </div>
                                             </div>
                                             <div class="col-md-6 ">
-                                                <div>Jan -34</div>
+                                                <div><b>{{ $location_name[0] }}</b></div>
                                             </div>
                                         </div>
                                         <div class="row p-4" style="border-bottom:1px solid rgb(255, 255, 255)">
@@ -155,7 +156,7 @@
                                                 <div>Date : </div>
                                             </div>
                                             <div class="col-md-6 ">
-                                                <div>Jan -34</div>
+                                                <div><b>{{ \Carbon\Carbon::parse($date)->format('jS F') }}</b></div>
                                             </div>
                                         </div>
                                         <div class="row p-4" style="border-bottom:1px solid rgb(255, 255, 255)">
@@ -163,15 +164,15 @@
                                                 <div>Time : </div>
                                             </div>
                                             <div class="col-md-6 ">
-                                                <div>Jan -34</div>
+                                                <div><b>{{ \Carbon\Carbon::parse($time)->format('h : i a') }}</b></div>
                                             </div>
                                         </div>
                                         <div class="row p-4" style="border-bottom:1px solid rgb(255, 255, 255)">
                                             <div class="col-md-6 ">
-                                                <div>Slots : </div>
+                                                <div>No of Slots : </div>
                                             </div>
                                             <div class="col-md-6 ">
-                                                <div>Jan -34</div>
+                                                <div><b>{{ $slots_count }}</b></div>
                                             </div>
                                         </div>
                                     </div>
