@@ -30,7 +30,7 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="bookings-current">
-                <i class="bi bi-circle"></i><span>Current Booking</span>
+                <i class="bi bi-circle"></i><span>Active Booking</span>
             </a>
         </li>
         <li class="nav-item">

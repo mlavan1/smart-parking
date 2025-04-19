@@ -123,7 +123,7 @@
                                             data-name="{{ $vendors->organization_name }}"
                                             data-section="{{ $vendors->id }}">
                                             <i class=" bi bi-pencil-square"></i></a>
-                                            <form action="{{ route('slots.destroy', $vendors->id) }}" method="POST" style="display:inline;">
+                                            <form action="" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger"

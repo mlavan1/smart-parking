@@ -30,7 +30,7 @@ class BookingController extends Controller
 
     // LOCATION SELECTION PAGE - VIEW
 
-    public function viewLocationSelection(Request $request)
+    public function viewLocationSelectionPage(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'location_id' => 'required',
@@ -60,7 +60,7 @@ class BookingController extends Controller
 
     // SLOTS SELECTION PAGE - VIEW
 
-    public function viewSlotsSelection(Request $request)
+    public function viewSlotsSelectionPage(Request $request)
     {
 
 
@@ -78,7 +78,6 @@ class BookingController extends Controller
 
     // BOOK SLOTS - SESSION STORE
 
-
     public function checkingAuthentication(Request $request)
     {
         //dd($request->all());
@@ -95,13 +94,12 @@ class BookingController extends Controller
     }
 
     public function viewBookingDetailsPage(){
-        //dd(session()->all());
-
+        
         $slots_count = count(Session::get('selected_slots'));
         $date = Session::get('date');
         $time = Session::get('time');
         $location = Session::get('location');
-        
+
         $location_name = DB::table('locations')
             ->where('locations.id', $location)
             ->pluck('locations.location_name');
