@@ -29,6 +29,30 @@ class UserSeeder extends Seeder
             ],
             [
                 'id' => 2,
+                'name' => 'vendor',
+                'email' => 'vendor@gmail.com',
+                'contact_number' => '0784456658',
+                'usertype' => 'vendor',
+                'email_verified_at' => null,
+                'password' => '$2y$10$1YfOj4ZNx8s2xN93e.2gue8P.9878/s9lf2dEGIO4xGeXEhcYrW02',
+                'remember_token' => null,
+                'created_at' => Carbon::parse('2025-02-28 17:48:44'),
+                'updated_at' => Carbon::parse('2025-02-28 17:48:44'),
+            ],
+            [
+                'id' => 3,
+                'name' => 'gate_keeper',
+                'email' => 'gkr@gmail.com',
+                'contact_number' => '0784456658',
+                'usertype' => 'gate_keeper',
+                'email_verified_at' => null,
+                'password' => '$2y$10$1YfOj4ZNx8s2xN93e.2gue8P.9878/s9lf2dEGIO4xGeXEhcYrW02',
+                'remember_token' => null,
+                'created_at' => Carbon::parse('2025-02-28 17:48:44'),
+                'updated_at' => Carbon::parse('2025-02-28 17:48:44'),
+            ],
+            [
+                'id' => 4,
                 'name' => 'user',
                 'email' => 'user@gmail.com',
                 'contact_number' => '0784456658',
@@ -39,18 +63,7 @@ class UserSeeder extends Seeder
                 'created_at' => Carbon::parse('2025-02-28 17:48:44'),
                 'updated_at' => Carbon::parse('2025-02-28 17:48:44'),
             ],
-            [
-                'id' => 3,
-                'name' => 'vendor',
-                'email' => 'vendor@gmail.com',
-                'contact_number' => '0784456658',
-                'usertype' => 'vendor',
-                'email_verified_at' => null,
-                'password' => '$2y$10$1YfOj4ZNx8s2xN93e.2gue8P.9878/s9lf2dEGIO4xGeXEhcYrW02',
-                'remember_token' => null,
-                'created_at' => Carbon::parse('2025-02-28 17:48:44'),
-                'updated_at' => Carbon::parse('2025-02-28 17:48:44'),
-            ]
+
         ]);
     }
 }

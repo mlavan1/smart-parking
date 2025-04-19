@@ -15,6 +15,8 @@ use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Hash;
 
+use function Laravel\Prompts\select;
+
 class AdminController extends Controller
 {
 
@@ -118,39 +120,49 @@ class AdminController extends Controller
     public function viewCurrentBooking()
     {
         $all_bookings = DB::table('bookings')
-    ->join('users', 'users.id', '=', 'bookings.user_id') // Booking user
-    ->join('vehicles', 'vehicles.id', '=', 'bookings.vehicle_id')
-    ->leftJoin('booked_slots', 'booked_slots.booking_id', '=', 'bookings.id')
-    ->leftJoin('slots', 'slots.id', '=', 'booked_slots.slot_id')
-    ->leftJoin('users as slot_owners', 'slot_owners.id', '=', 'slots.user_id') // Slot owner
-    ->select(
-        'users.name as booking_user_name',
-        'users.contact_number',
-        'bookings.id',
-        'bookings.user_id',
-        'bookings.status',
-        'bookings.date_time',
-        DB::raw("CONCAT(vehicles.v_color, ' ', vehicles.v_make, ' ', vehicles.v_model) as vehicle_details"),
-        'vehicles.license_plate',
-        DB::raw("GROUP_CONCAT(DISTINCT slots.name ORDER BY slots.name ASC SEPARATOR ', ') as slot_names"),
-        'slot_owners.usertype as slot_owner_type' // <--- Your target field
-    )
-    ->where('bookings.date_time', '>', Carbon::now())
-    ->where('bookings.status', 'active')
-    ->groupBy(
-        'bookings.id',
-        'users.name',
-        'users.contact_number',
-        'bookings.user_id',
-        'bookings.status',
-        'bookings.date_time',
-        'vehicles.v_color',
-        'vehicles.v_make',
-        'vehicles.v_model',
-        'vehicles.license_plate',
-        'slot_owners.usertype'
-    )
-    ->get();
+            ->leftJoin('users', 'users.id', '=', 'bookings.user_id')
+            ->leftJoin('vehicles', 'vehicles.id', '=', 'bookings.vehicle_id')
+            ->leftJoin('booked_slots', 'booked_slots.booking_id', '=', 'bookings.id')
+            ->leftJoin('slots', 'slots.id', '=', 'booked_slots.slot_id')
+            ->leftJoin('users as slot_owners', 'slot_owners.id', '=', 'slots.user_id')
+            ->select(
+                'users.name as booking_user_name',
+                'slots.user_id as user_type',
+                'users.contact_number',
+                'bookings.id',
+                'bookings.user_id',
+                'bookings.status',
+                'bookings.date_time',
+                DB::raw("CONCAT(vehicles.v_color, ' ', vehicles.v_make, ' ', vehicles.v_model) as vehicle_details"),
+                'vehicles.license_plate',
+                DB::raw("GROUP_CONCAT(slots.name ORDER BY slots.name ASC SEPARATOR ', ') as slot_names"),
+                'slot_owners.usertype as slot_owner_type'
+            )
+            ->where('bookings.date_time', '>', Carbon::now())
+            ->groupBy(
+                'bookings.id',
+                'slots.user_id',
+                'users.name',
+                'users.contact_number',
+                'bookings.user_id',
+                'bookings.status',
+                'bookings.date_time',
+                'vehicles.v_color',
+                'vehicles.v_make',
+                'vehicles.v_model',
+                'vehicles.license_plate',
+                'slot_owners.usertype'
+            )
+            ->get();
+
+            // $user_types = DB::table('bookings')
+            // ->leftJoin('booked_slots', 'booked_slots.id','bookings.id')
+            // ->leftJoin('slots', 'slots.id', '=', 'booked_slots.slot_id')
+            // ->leftJoin('users','users.id','slots.user_id')
+            // ->select('users.usertype')
+            // ->get();
+
+            // dd($all_bookings);
 
 
         return view('admin.current-booking', compact('all_bookings'));
@@ -166,16 +178,16 @@ class AdminController extends Controller
                 'users.name',
                 'bookings.status',
                 'bookings.date_time',
-)
+            )
             ->groupBy(
                 'users.name',
                 'bookings.status',
                 'bookings.date_time',
             )
-            ->where('bookings.id',$id)
+            ->where('bookings.id', $id)
             ->get();
         $booking = Booking::findOrFail($id);
-        return view('admin.change-date', compact('all_bookings','booking'));
+        return view('admin.change-date', compact('all_bookings', 'booking'));
     }
 
     public function updateDate(Request $request, $id)

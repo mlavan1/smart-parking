@@ -16,6 +16,8 @@ class SlotsController extends Controller
         $location = $request->query('location');
         $date = $request->query('date');
         $time = $request->query('time');
+        Session::put('date', $date);
+        Session::put('time', $time);
         $slots = \DB::table('slots')->get();
 
 

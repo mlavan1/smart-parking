@@ -29,10 +29,7 @@ class BookingController extends Controller
 
     public function proceedToPay(Request $request)
     {
-        // dd($request->all());
-
         try {
-            //dd($request->all());
             $validator = Validator::make($request->all(), [
                 'v_make'        => 'required|string|max:255',
                 'v_model'       => 'nullable|string|max:255',
@@ -41,7 +38,6 @@ class BookingController extends Controller
                 'full_name'  => 'required|string|max:255',
             ]);
 
-            // If validation fails, redirect back with errors
             if ($validator->fails()) {
                 return redirect()->back()
                     ->withErrors($validator)
@@ -60,8 +56,8 @@ class BookingController extends Controller
             $booking->user_id = Auth::id();
             $booking->vehicle_id = $vehicle->id;
             $booking->name = $request->booking_name;
-            $booking->date_time = Carbon::now();
-            $booking->status = 'active'; // default status
+            $booking->date_time = Carbon::parse( Session::get('date') . ' ' .  Session::get('time'));
+            $booking->status = 'active';
             $booking->save();
 
             $selectedSlots = Session::get('selected_slots');
@@ -78,6 +74,7 @@ class BookingController extends Controller
                     ]);
                 }
             }
+            Session::flush();
         } catch (\Exception $e) {
             Log::info("Error==>".$e);
         }

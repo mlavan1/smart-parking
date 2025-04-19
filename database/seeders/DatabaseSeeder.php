@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SectionSeeder::class,
             SlotSeeder::class,
+            ParkingLotsTableSeeder::class
 
         ]);
     }

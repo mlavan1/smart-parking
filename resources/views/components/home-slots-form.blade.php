@@ -15,7 +15,7 @@
           </div>
           <div class="col-lg-3">
             <label for="parkingDate">Select Your Date</label>
-            <input type="date" name= "date" class="form-control"id="parkingDate" placeholder=" "  >
+            <input type="date" name= "date" class="form-control" id="parkingDate" placeholder=" "  >
           </div>
 
           <div class="col-lg-3">

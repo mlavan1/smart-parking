@@ -26,7 +26,7 @@
 
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body" >
                         <h5 class="card-title">All Slots</h5>
 
                         <table class="table datatable">
@@ -34,12 +34,12 @@
 
                                 <tr>
                                     <th>No:</th>
-                                    <th>Type</th>
-                                    <th>Name</th>
+                                    <th>Owner</th>
+                                    <th>Cust. Name</th>
                                     <th>Slots</th>
-                                    <th>Date& Time</th>
+                                    <th>Date & Time</th>
                                     <th>Vehicle</th>
-                                    <th>License plate</th>
+                                    <th>Lic. plate</th>
                                     <th>Tp No</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -49,8 +49,8 @@
                                 @foreach ($all_bookings as $key => $booking)
                                     <tr>
                                         <td>{{ $key+1 }}</td>
-                                        <td>{{ $booking->slot_owner_type??'teset' }}
-                                            {{ $booking->slot_owner_type == 1 ? 'Company' : 'Vendor' }}
+                                        <td>
+                                            {{ $booking->slot_owner_type == "admin" ? 'Company' : 'Vendor' }}
                                         </td>
 
                                         <td>{{ $booking->booking_user_name }}</td>
