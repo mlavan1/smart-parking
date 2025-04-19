@@ -24,7 +24,7 @@
 
     <!-- Custom styles for this template -->
     <link href="{{ url('') }}/assets/css/style.css" rel="stylesheet" />
-    
+
     <!-- responsive style -->
     <link href="{{ url('') }}/assets/css/responsive.css" rel="stylesheet" />
 
@@ -34,6 +34,11 @@
             padding: 0 !important;
             margin: 0 !important;
             box-sizing: border-box !important
+        }
+        button.search_slots_btn:focus{
+            outline:none;
+            border:none;
+            box-shadow: none
         }
     </style>
     @yield('styles')

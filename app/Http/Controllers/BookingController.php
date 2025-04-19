@@ -11,9 +11,93 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\DB;
+
+use function Laravel\Prompts\select;
 
 class BookingController extends Controller
 {
+
+    // LANDING PAGE - VIEW
+
+    public function viewLandingPage()
+    {
+
+        $places = DB::table('locations')->get();
+        return view('home', compact('places'));
+    }
+
+    // LOCATION SELECTION PAGE - VIEW
+
+    public function viewLocationSelection(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'location_id' => 'required',
+            'date'   => 'required|date|after_or_equal:today',
+            'time'  => 'required',
+        ],
+        [
+            'location_id.required' => "Location is required",
+            'date.required' => "Date is required",
+            'date.after_or_equal' => "Invalid date",
+            'time.required' => "Time is required"
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $location_id  = $request->location_id;
+        $location_name = DB::table('locations')
+            ->where('locations.id', $location_id)
+            ->pluck('locations.location_name');
+
+        $parking_lots = DB::table('parking_lots')
+            ->where('parking_lots.location_id', $location_id)
+            ->get();
+        return view('parking-lot-selection', compact('parking_lots', 'location_name'));
+    }
+
+    // SLOTS SELECTION PAGE - VIEW
+
+    public function viewSlotsSelection(Request $request)
+    {
+
+
+        $location = $request->query('location');
+        $date = $request->query('date');
+        $time = $request->query('time');
+        Session::put('date', $date);
+        Session::put('time', $time);
+        $slots = DB::table('slots')->get();
+
+
+        return view('slots-selection', compact('slots'));
+    }
+
+    // BOOK SLOTS - SESSION STORE
+
+
+    public function checkingAuthentication(Request $request)
+    {
+        //dd($request->all());
+        $selectedSlots = $request->input('slots');
+        $slots = explode(',', $request->input('slots'));
+
+        Session::put('selected_slots', $slots);
+
+        if (auth()->check()) {
+            return redirect()->route('booking.details');
+        }
+        Redirect::setIntendedUrl(route('booking.details'));
+        return redirect("/login");
+    }
+
+    public function viewBookingDetailsPage(){
+        return view('details');
+    }
+
+
     public function updateStatus(Request $request)
     {
         $request->validate([
@@ -56,7 +140,7 @@ class BookingController extends Controller
             $booking->user_id = Auth::id();
             $booking->vehicle_id = $vehicle->id;
             $booking->name = $request->booking_name;
-            $booking->date_time = Carbon::parse( Session::get('date') . ' ' .  Session::get('time'));
+            $booking->date_time = Carbon::parse(Session::get('date') . ' ' .  Session::get('time'));
             $booking->status = 'active';
             $booking->save();
 
@@ -66,7 +150,7 @@ class BookingController extends Controller
                 $slots = Slot::whereIn('name', $selectedSlots)->get();
 
                 foreach ($slots as $slot) {
-                    \DB::table('booked_slots')->insert([
+                    DB::table('booked_slots')->insert([
                         'booking_id' => $booking->id,
                         'slot_id' => $slot->id,
                         'created_at' => now(),
@@ -76,7 +160,7 @@ class BookingController extends Controller
             }
             Session::flush();
         } catch (\Exception $e) {
-            Log::info("Error==>".$e);
+            Log::info("Error==>" . $e);
         }
     }
 }

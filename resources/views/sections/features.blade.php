@@ -1,4 +1,4 @@
-<section class="feature_section layout_padding2" id = "feauture">
+<section class="feature_section layout_padding2" id = "feauture" style="margin-top:-73px">
     <div class="container">
       <div class="row">
         <div class="col-md-4">

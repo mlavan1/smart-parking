@@ -6,9 +6,10 @@
 
 @section('main')
     <div class="details_container">
-        <div class="details_tile ctm_location">Jaffna</div>
-        <div class="details_tile ctm_date">12th March 2025</div>
-        <div class="details_tile ctm_time">02:00pm</div>
+        <div class="details_tile ctm_date">Date : <span
+                style="font-weight: 600">&nbsp;{{ \Carbon\Carbon::parse(request('date'))->format('jS F') }}</span></div>
+        <div class="details_tile ctm_time">Time : <span
+                style="font-weight: 600">&nbsp;{{ \Carbon\Carbon::parse(request('time'))->format('h : i a') }}</span></div>
     </div>
     <div class="container parking_container">
         <h1 class="ctm_heading">Parking Slot Selection</h1>
@@ -19,24 +20,23 @@
             <div><span class="red"></span> Booked</div>
         </div>
 
-        <form id="bookingForm" class="form_container" method="POST" action="{{ route('book.parking') }}">
+        <form id="bookingForm" class="form_container" method="GET" action="{{ route('auth.check') }}">
             @csrf
             <input type="hidden" name="slots" id="selectedSlots" value="">
             <div class="slots-container">
                 @php
                     $preselectedSlots = session('selected_slots', []);
                 @endphp
-
                 @foreach ($slots as $key => $slot)
                     <div class="slot {{ $slot->status === 'open' ? 'open' : ($slot->status === 'parked' ? 'booked' : 'pending') }}"
                         data-id="{{ $slot->name }}">
                         {{ $slot->name }}
                     </div>
                 @endforeach
-
             </div>
             <button class="submit_btn" id="bookButton" disabled type="submit">Book Now</button>
         </form>
+
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

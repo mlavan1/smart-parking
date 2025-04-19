@@ -1,34 +1,39 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\SlotsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\DashboardController;
+
+// =====================
+//     PUBLIC ROUTES
+// =====================
+
+Route::get('/', [BookingController::class, 'viewLandingPage'])->name('home.view');
+Route::get('/location-selection', [BookingController::class, 'viewLocationSelection'])->name('locations.view');
+Route::get('/auth-check', [BookingController::class, 'checkingAuthentication'])->name('auth.check');
+Route::get('/slots-selection', [BookingController::class, 'viewSlotsSelection'])->name('slots.view');
+Route::get('/booking-info', [BookingController::class, 'viewBookingDetailsPage'])->name('booking.details');
 
 
-// Public Routes
-Route::view('/', 'home');
 
-Route::view('/details', 'details')->name('details');
+
+
 Route::post('/pay',[BookingController::class, 'proceedToPay'])->name('book.pay');
-Route::get('/search', [SlotsController::class, 'index'])->name('slots.view');
 
-Route::post('/book-parking', [SlotsController::class, 'book'])->name('book.parking');
 
 
 // Authenticated User Routes
 Route::middleware('auth')->group(function () {
     // Home
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/home', [DashboardController::class, 'index'])->name('home');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Slot Booking
 });
 
 

@@ -19,7 +19,19 @@ class SlotSeeder extends Seeder
         $slots = [];
 
         for ($i = 1; $i <= 24; $i++) {
-            $slots[] = [
+            if($i==10 || $i==7 || $i==22 || $i==18 || $i==1){
+                $slots[] = [
+                    'id'         => $i,
+                    'user_id'    => 1,
+                    'section_id' => 1,
+                    'status'     => 'parked',
+                    'name'       => 'A' . $i,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+            }
+            else{
+                $slots[] = [
                 'id'         => $i,
                 'user_id'    => 1,
                 'section_id' => 1,
@@ -28,6 +40,8 @@ class SlotSeeder extends Seeder
                 'created_at' => $now,
                 'updated_at' => $now,
             ];
+            }
+
         }
 
         DB::table('slots')->insert($slots);

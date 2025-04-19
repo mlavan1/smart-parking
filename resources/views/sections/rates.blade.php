@@ -10,7 +10,7 @@
           <div class="detail-box">
             <div class="price">
               <h3>
-                $ <span>30</span> /day
+                Rs. <span>100</span> /Hour
 
               </h3>
               <h6>
@@ -21,17 +21,12 @@
               long established fact a reader will be distracted by the readable content of a page when looking at its
             </p>
           </div>
-          <div class="btn-box">
-            <a href="">
-              Read More
-            </a>
-          </div>
         </div>
         <div class="box">
           <div class="detail-box">
             <div class="price">
               <h3>
-                $ <span>40</span> /day
+                Rs. <span>800</span> /day
 
               </h3>
               <h6>
@@ -42,17 +37,12 @@
               long established fact a reader will be distracted by the readable content of a page when looking at its
             </p>
           </div>
-          <div class="btn-box">
-            <a href="">
-              Read More
-            </a>
-          </div>
         </div>
         <div class="box">
           <div class="detail-box">
             <div class="price">
               <h3>
-                $ <span>50</span> /day
+                Rs. <span>24K</span> /Month
 
               </h3>
               <h6>
@@ -62,11 +52,6 @@
             <p>
               long established fact a reader will be distracted by the readable content of a page when looking at its
             </p>
-          </div>
-          <div class="btn-box">
-            <a href="">
-              Read More
-            </a>
           </div>
         </div>
       </div>

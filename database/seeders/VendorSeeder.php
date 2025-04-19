@@ -7,38 +7,35 @@ use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class ParkingLotsTableSeeder extends Seeder
+class VendorSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('parking_lots')->insert([
+        DB::table('vendors')->insert([
             [
                 'user_id' => 2,
-                'name' => 'Downtown Parking Lot',
+                'organization_name' => 'Organization1',
                 'address' => '123 Main Street, Cityville',
-                'hourly_rate' => 80.0,
-                'total_slots' => 50,
+                'contact_no' => '0771234567',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'user_id' => 2,
-                'name' => 'Westside Garage',
+                'organization_name' => 'Organization2',
                 'address' => '456 Elm Avenue, Townsburg',
-                'hourly_rate' => 80.5,
-                'total_slots' => 100,
+                'contact_no' => '0771234567',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'user_id' => 2,
-                'name' => 'Airport Long Term',
+                'organization_name' => 'Organization3',
                 'address' => '789 Airport Road, Jet City',
-                'hourly_rate' => 80.5,
-                'total_slots' => 200,
+                'contact_no' => '0771234567',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
