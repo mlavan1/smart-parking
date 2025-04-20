@@ -10,47 +10,67 @@
             </a>
         </li><!-- End Dashboard Nav -->
 
-        <li class="nav-item mt-4">
-            <a class="nav-link collapsed" href="slots">
-                <i class="bi bi-circle"></i><span>Company Slots</span>
-            </a>
-        </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="sections">
-                <i class="bi bi-circle"></i><span>Sections</span>
+            <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-menu-button-wide"></i><span>Company</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
+            <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="slots">
+                        <i class="bi bi-circle"></i><span>Slots</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="sections">
+                        <i class="bi bi-circle"></i><span>Sections</span>
+                    </a>
+                </li>
+
+            </ul>
         </li>
-
-        {{-- <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Branches</span>
-        </a>
-      </li> --}}
-
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="bookings-current">
-                <i class="bi bi-circle"></i><span>Active Booking</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="bookings-past">
-                <i class="bi bi-circle"></i><span>Completed Booking</span>
-            </a>
-        </li>
-
-
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="vendors">
-                <i class="bi bi-circle"></i><span>Vendor Details</span>
+            <a class="nav-link collapsed" data-bs-target="#bookings-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-calendar-week"></i><span>Bookings</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
+            <ul id="bookings-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="bookings-current">
+                        <i class="bi bi-circle"></i><span>Active</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="bookings-past">
+                        <i class="bi bi-circle"></i><span>Completed</span>
+                    </a>
+                </li>
+
+            </ul>
         </li>
+
         <li class="nav-item">
-            <a class="nav-link collapsed" href="vendor-slots">
-                <i class="bi bi-circle"></i><span>Vendor Parking lots</span>
+            <a class="nav-link collapsed" data-bs-target="#vendor-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-people"></i><span>Vendors</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
+            <ul id="vendor-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="vendors">
+                        <i class="bi bi-circle"></i><span>Details</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="vendors">
+                        <i class="bi bi-circle"></i><span>Organizations</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="vendors">
+                        <i class="bi bi-circle"></i><span>Slots</span>
+                    </a>
+                </li>
+            </ul>
         </li>
+
         <li class="nav-item">
             <a class="nav-link collapsed" href="users">
                 <i class="bi bi-gem"></i><span>Customers</span>
