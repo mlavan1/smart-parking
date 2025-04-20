@@ -35,7 +35,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link collapsed" href="bookings-past">
-                <i class="bi bi-circle"></i><span>Past Booking</span>
+                <i class="bi bi-circle"></i><span>Completed Booking</span>
             </a>
         </li>
 

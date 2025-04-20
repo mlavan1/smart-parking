@@ -24,7 +24,12 @@ Route::get('/slots-selection', [BookingController::class, 'viewSlotsSelectionPag
 Route::get('/booking-info', [BookingController::class, 'viewBookingDetailsPage'])->name('booking.details');
 Route::post('/proceed-payment',[BookingController::class, 'proceedToPay'])->name('book.pay');
 
-// Authenticated User Routes
+
+// =====================
+//     AUTHENTICATION ROUTES
+// =====================
+
+
 Route::middleware('auth')->group(function () {
     // Home
     Route::get('/home', [DashboardController::class, 'index'])->name('home');

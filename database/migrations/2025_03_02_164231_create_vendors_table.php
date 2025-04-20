@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('organization_name')->nullable();
             $table->string('address')->nullable();
             $table->string('contact_no')->nullable();
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

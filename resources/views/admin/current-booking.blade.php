@@ -36,7 +36,7 @@
                                     <th>No:</th>
                                     <th>Owner</th>
                                     <th>Cust. Name</th>
-                                    <th>Slots</th>
+                                    <th style="width:10%">Slots</th>
                                     <th>Date & Time</th>
                                     <th>Vehicle</th>
                                     <th>Lic. plate</th>
@@ -81,7 +81,7 @@
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm btn-danger"
                                                     onclick="return confirm('Are you sure you want to cancel this booking?')">
-                                                    <i class="bi bi-x-circle"></i> Cancel
+                                                    <i class="bi bi-x-circle"></i>
                                                 </button>
                                             </form>
                                         @elseif ($booking->status == 'cancelled')
@@ -90,7 +90,7 @@
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm btn-success"
                                                     onclick="return confirm('Are you sure you want to reactivate this booking?')">
-                                                    <i class="bi bi-check-circle"></i> Accept
+                                                    <i class="bi bi-check-circle"></i>
                                                 </button>
                                             </form>
                                         @endif

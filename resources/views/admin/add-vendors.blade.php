@@ -13,16 +13,8 @@
                 </nav>
             </div>
         </div>
-    </div><!-- End Page Title -->
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
     </div>
-@endif
+
     <section class="section">
         <div class="row">
             <div class="col-lg-3">
@@ -36,49 +28,56 @@
                             @csrf
                             <div class="row">
                                 <div class="col-12">
-                                    <label class="form-label">Name</label>
+                                    <label class="form-label" style="font-size: 0.9em">Name</label>
                                     <input type="text" class="form-control" name="name">
-                                    @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                                    @error('name') <span class="text-danger" style="font-size: 0.8em">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-12">
-                                    <label class="form-label">Email</label>
+                                    <label class="form-label" style="font-size: 0.9em">Email</label>
                                     <input type="email" class="form-control" name="email">
-                                    @error('email') <span class="text-danger">{{ $message }}</span> @enderror
+                                    @error('email') <span class="text-danger" style="font-size: 0.8em">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-12">
-                                    <label class="form-label">Organization Name</label>
+                                    <label class="form-label" style="font-size: 0.9em">Organization Name</label>
                                     <input type="text" class="form-control" name="organization_name">
-                                    @error('organization_name') <span class="text-danger">{{ $message }}</span> @enderror
+                                    @error('organization_name') <span class="text-danger" style="font-size: 0.8em">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-12">
-                                    <label class="form-label">Address</label>
+                                    <label class="form-label" style="font-size: 0.9em">Address</label>
                                     <input type="text" class="form-control" name="address">
-                                    @error('address') <span class="text-danger">{{ $message }}</span> @enderror
+                                    @error('address') <span class="text-danger" style="font-size: 0.8em">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-12">
-                                    <label class="form-label">Contact No</label>
-                                    <input type="text" class="form-control" name="contact_no">
-                                    @error('contact_no') <span class="text-danger">{{ $message }}</span> @enderror
+                                    <label class="form-label" style="font-size: 0.9em">Personal contact No</label>
+                                    <input type="text" class="form-control" name="personal_contact_no">
+                                    @error('personal_contact_no') <span class="text-danger" style="font-size: 0.8em">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-12">
-                                    <label class="form-label">Password</label>
+                                    <label class="form-label" style="font-size: 0.9em">Company Contact No</label>
+                                    <input type="text" class="form-control" name="company_contact_no">
+                                    @error('company_contact_no') <span class="text-danger" style="font-size: 0.8em">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <label class="form-label" style="font-size: 0.9em">Password</label>
                                     <input type="password" class="form-control" name="password">
-                                    @error('password') <span class="text-danger">{{ $message }}</span> @enderror
+                                    @error('password') <span class="text-danger" style="font-size: 0.8em">{{ $message }}</span> @enderror
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-12">
-                                    <label class="form-label">Confirm Password</label>
+                                    <label class="form-label" style="font-size: 0.9em">Confirm Password</label>
                                     <input type="password" class="form-control" name="password_confirmation">
                                 </div>
                             </div>
@@ -103,24 +102,19 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Contact no</th>
-                                    <th>Org. name</th>
-                                    <th>Address</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($all_vendors as $vendors)
                                     <tr>
-                                        <td>{{ $vendors->organization_name }}</td>
-                                        <td>{{ $vendors->organization_name }}</td>
-                                        <td>{{ $vendors->organization_name }}</td>
-                                        <td>{{ $vendors->organization_name }}</td>
-                                        <td><span class="badge bg-success">{{ $vendors->address }}</span></td>
+                                        <td>{{ $vendors->name }}</td>
+                                        <td>{{ $vendors->email }}</td>
+                                        <td>{{ $vendors->contact_number }}</td>
                                         <td>
                                             <a type="button" class="btn btn-sm btn-warning edit-slot-btn"
 
                                             data-id="{{ $vendors->id }}"
-                                            data-name="{{ $vendors->organization_name }}"
                                             data-section="{{ $vendors->id }}">
                                             <i class=" bi bi-pencil-square"></i></a>
                                             <form action="" method="POST" style="display:inline;">
@@ -128,7 +122,6 @@
                                                 @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger"
                                             data-id="{{ $vendors->id }}"
-                                            data-name="{{ $vendors->organization_name }}"
                                             data-section="{{ $vendors->id }}"
                                             onclick="return confirm('Are you sure?')">
                                             <i class="bi bi-trash-fill"></i></button >
