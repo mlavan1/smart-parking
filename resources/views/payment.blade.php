@@ -219,20 +219,25 @@
                 </div>
             </div>
         </div>
-        <form id="cardForm" method="POST" action="{{ route('book.check') }}">
+        <form method="GET" action="{{ route('book.success') }}">
             @csrf
-            <input type="hidden" name="payment_status" id="payment_status">
+            <input type="hidden" name="payment_status" id="payment_status" value=1>
             <div class="row mt-5 d-flex justify-content-center align-items-center">
-
                 <div class="p-3 w-70">
-                    <button type="button" value="1"
-                        class="btn btn-success btn-block free-button accept w-100">Simulate Card Accepted</button>
+                    <button type="submit" class="btn btn-success btn-block free-button accept w-100">Simulate Card
+                        Accepted</button>
                 </div>
 
+            </div>
+        </form>
+        <form method="GET" action="{{ route('book.reject') }}">
+            @csrf
+            <input type="hidden" name="payment_status" id="payment_status" value=0>
+            <div class="row mt-1 d-flex justify-content-center align-items-center">
 
                 <div class="p-3 w-70">
-                    <button type="button" value="0"
-                        class="btn btn-danger btn-block free-button reject w-100">Simulate Card Rejected</button>
+                    <button type="submit" class="btn btn-danger btn-block free-button reject w-100">Simulate Card
+                        Rejected</button>
                 </div>
 
             </div>
@@ -244,19 +249,6 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
 
-    {{-- JQUERY CDN --}}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            $('.free-button').click(function() {
-                var button = $(this);
-                button.prop('disabled', true);
-                $('#payment_status').val(button.val());
-                $('#cardForm').submit();
-            });
-        });
-    </script>
 </body>
 
 </html>

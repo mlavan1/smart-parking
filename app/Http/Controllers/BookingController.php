@@ -129,96 +129,109 @@ class BookingController extends Controller
 
     public function proceedToPay(Request $request)
     {
-        Session::put('personal_details', $request->all());
-        return view('payment');
-    }
-
-    public function successPayment(Request $request)
-    {
         try {
-            if ($request->payment_status == 1) {
-                $validator = Validator::make(
-                    $request->all(),
-                    [
-                        'full_name'  => 'required|string|max:255',
-                        'email'      => 'required|string|email|max:255',
-                        'contact_number'    => 'required|string|max:255',
-                        'v_make'        => 'required|string|max:255',
-                        'v_model'       => 'nullable|string|max:255',
-                        'v_color'       => 'nullable|string|max:255',
-                        'license_plate' => 'required|string|max:255',
-                    ],
-                    [
-                        'full_name.required' => "Full name is required",
-                        'email.required' => "Email is required",
-                        'email.email' => "Invalid email",
-                        'contact_number.required' => "Contact number is required",
-                        'v_make.required' => "Vehicle make is required",
-                        'license_plate.required' => "License plate is required",
-                    ]
-                );
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'full_name'  => 'required|string|max:255',
+                    'email'      => 'required|string|email|max:255',
+                    'contact_number'    => 'required|string|max:255',
+                    'v_make'        => 'required|string|max:255',
+                    'v_model'       => 'nullable|string|max:255',
+                    'v_color'       => 'nullable|string|max:255',
+                    'license_plate' => 'required|string|max:255',
+                ],
+                [
+                    'full_name.required' => "Full name is required",
+                    'email.required' => "Email is required",
+                    'email.email' => "Invalid email",
+                    'contact_number.required' => "Contact number is required",
+                    'v_make.required' => "Vehicle make is required",
+                    'license_plate.required' => "License plate is required",
+                ]
+            );
 
-                if ($validator->fails()) {
-                    Log::error('Validation failed', [
-                        'errors' => $validator->errors()->toArray(),
-                        'input' => request()->all()
-                    ]);
-                    return redirect()->back()
-                        ->withErrors($validator)
-                        ->withInput();
-                }
-
-                $vehicle = Vehicle::where('user_id', Auth::id())
-                    ->where('license_plate', $request->license_plate)
-                    ->first();
-
-                if ($vehicle) {
-                    $vehicle->v_make = $request->v_make;
-                    $vehicle->v_model = $request->v_model;
-                    $vehicle->v_color = $request->v_color;
-                    $vehicle->save();
-                } else {
-                    $vehicle = new Vehicle();
-                    $vehicle->user_id = Auth::id();
-                    $vehicle->v_make = $request->v_make;
-                    $vehicle->v_model = $request->v_model;
-                    $vehicle->v_color = $request->v_color;
-                    $vehicle->license_plate = $request->license_plate;
-                    $vehicle->save();
-                }
-
-                $booking = new Booking();
-                $booking->user_id = Auth::id();
-                $booking->vehicle_id = $vehicle->id;
-                $booking->name = $request->booking_name;
-                $booking->date_time = Carbon::parse(Session::get('date') . ' ' .  Session::get('time'));
-                $booking->status = 'active';
-                $booking->save();
-
-                $selectedSlots = Session::get('selected_slots');
-
-                if (!empty($selectedSlots)) {
-                    $slots = Slot::whereIn('name', $selectedSlots)->get();
-
-                    foreach ($slots as $slot) {
-                        DB::table('booked_slots')->insert([
-                            'booking_id' => $booking->id,
-                            'slot_id' => $slot->id,
-                            'created_at' => now(),
-                            'updated_at' => now(),
-                        ]);
-                        DB::table('all_slots')->where('name', $slot->name)->update(['status' => 'booked']);
-                    }
-                }
-
-
-                Session::flush();
+            if ($validator->fails()) {
+                Log::error('Validation failed', [
+                    'errors' => $validator->errors()->toArray(),
+                    'input' => request()->all()
+                ]);
+                return redirect()->back()
+                    ->withErrors($validator)
+                    ->withInput();
             }
-            else{
-                return redirect()->route('home.view')->withErrors('Invalid booking details');
-            }
+
+            Session::put('personal_details', $request->all());
+            return view('payment');
+
         } catch (\Exception $e) {
             Log::info("Error==>" . $e);
+        }
+
+    }
+
+    public function rejectPayment(Request $request)
+    {
+        Session::forget(['booking_details', 'personal_details', 'selected_slots', ]);
+        return view('payment_reject');
+    }
+
+    public function successPayment()
+    {
+        try {
+            // dd(Session::all());
+            $booking_details = Session::get('booking_details');
+            $person_details = Session::get('personal_details');
+            $selectedSlots = Session::get('selected_slots');
+
+            $vehicle = Vehicle::where('user_id', Auth::id())
+                ->where('license_plate', $person_details['license_plate'])
+                ->first();
+
+            if ($vehicle) {
+                $vehicle->v_make = $person_details['v_make'];
+                $vehicle->v_model = $person_details['v_model'];
+                $vehicle->v_color = $person_details['v_color'];
+                $vehicle->save();
+            } else {
+                $vehicle = new Vehicle();
+                $vehicle->user_id = Auth::id();
+                $vehicle->v_make = $person_details['v_make'];
+                $vehicle->v_model = $person_details['v_model'];
+                $vehicle->v_color = $person_details['v_color'];
+                $vehicle->license_plate = $person_details['license_plate'];
+                $vehicle->save();
+            }
+
+            $booking = new Booking();
+            $booking->user_id = Auth::id();
+            $booking->vehicle_id = $vehicle->id;
+            $booking->name = $person_details['full_name'];
+            $booking->date_time = Carbon::parse($booking_details['date'] . ' ' .  $booking_details['time']);
+            $booking->status = 'active';
+            $booking->created_at = now();
+            $booking->updated_at = now();
+            $booking->save();
+
+            if (!empty($selectedSlots)) {
+                $slots = Slot::whereIn('name', $selectedSlots)->get();
+
+                foreach ($slots as $slot) {
+                    DB::table('booked_slots')->insert([
+                        'booking_id' => $booking->id,
+                        'slot_id' => $slot->id,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                    DB::table('all_slots')->where('name', $slot->name)->update(['status' => 'booked']);
+                }
+            }
+
+            Session::forget(['booking_details', 'personal_details', 'selected_slots', ]);
+            return view('payment_success');
+        } catch (\Exception $e) {
+            Log::info("Error==>" . $e);
+
         }
     }
 }

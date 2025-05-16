@@ -23,7 +23,8 @@ Route::get('/auth-check', [BookingController::class, 'checkingAuthentication'])-
 Route::get('/slots-selection', [BookingController::class, 'viewSlotsSelectionPage'])->name('slots.view');
 Route::get('/booking-info', [BookingController::class, 'viewBookingDetailsPage'])->name('booking.details');
 Route::post('/proceed-payment',[BookingController::class, 'proceedToPay'])->name('book.pay');
-Route::post('/payment-check',[BookingController::class, 'successPayment'])->name('book.check');
+Route::get('/payment-success',[BookingController::class, 'successPayment'])->name('book.success');
+Route::get('/payment-reject',[BookingController::class, 'rejectPayment'])->name('book.reject');
 
 // =====================
 //     AUTHENTICATION ROUTES
