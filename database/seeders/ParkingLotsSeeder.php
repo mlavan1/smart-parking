@@ -17,7 +17,6 @@ class ParkingLotsSeeder extends Seeder
         DB::table('parking_lots')->insert([
             [
                 'user_id' => 2,
-                'vendor_id' => 1,
                 'name' => 'Downtown Parking Lot',
                 'location_id' => 1,
                 'status' => 'active',
@@ -29,7 +28,6 @@ class ParkingLotsSeeder extends Seeder
             ],
             [
                 'user_id' => 2,
-                'vendor_id' => 2,
                 'name' => 'Westside Garage',
                 'location_id' => 19,
                 'status' => 'active',
@@ -41,7 +39,6 @@ class ParkingLotsSeeder extends Seeder
             ],
             [
                 'user_id' => 2,
-                'vendor_id' => 3,
                 'name' => 'Airport Long Term',
                 'location_id' => 3,
                 'status' => 'active',
@@ -53,7 +50,6 @@ class ParkingLotsSeeder extends Seeder
             ],
             [
                 'user_id' => 1,
-                'vendor_id' => null,
                 'name' => 'Airport Long Term',
                 'location_id' => 19,
                 'status' => 'active',
@@ -65,7 +61,6 @@ class ParkingLotsSeeder extends Seeder
             ],
             [
                 'user_id' => 1,
-                'vendor_id' => null,
                 'name' => 'Airport Long Term',
                 'location_id' => 4,
                 'status' => 'active',

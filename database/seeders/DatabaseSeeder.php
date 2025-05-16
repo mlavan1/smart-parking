@@ -21,12 +21,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserSeeder::class,
-            SectionSeeder::class,
-            SlotSeeder::class,
             VendorSeeder::class,
             LocationSeeder::class,
-            ParkingLotsSeeder::class
-
+            ParkingLotsSeeder::class,
+            SlotSeeder::class,
+            // SectionSeeder::class,
         ]);
     }
 }

@@ -3,15 +3,17 @@
 @section('main')
     <style>
         button.pay_now {
-            background: rgb(29, 29, 28);
+            background: #007aff;
             color: white;
-            padding: 10px 30px;
+            width: 200px;
+            padding: 10px 0;
+            border:none;
             border-radius: 5px;
             transition: background 0.3s ease-in-out
         }
 
         button.pay_now:hover {
-            background: rgb(74, 75, 78);
+            background: #0052a8;
         }
 
         h3.sub_heading {
@@ -72,6 +74,9 @@
                                                         <label class="form-label" for="form3Examplev2">Full name</label>
                                                         <input type="text" id="full_name" name="full_name"  value="{{  Auth::user()->name ?? ""}}"
                                                             class="form-control form-control-lg" />
+                                                        @error('full_name')
+                                                            <span style="color: red;font-size:0.8em"><i>{{ $message }}</i></span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
@@ -88,6 +93,9 @@
                                                         <label class="form-label" for="form3Examplev2">Contact no</label>
                                                         <input type="text" id="contact_number" name="contact_number"  value="{{  Auth::user()->contact_number ?? "" }}"
                                                             class="form-control form-control-lg" />
+                                                        @error('contact_number')
+                                                            <span style="color: red;font-size:0.8em"><i>{{ $message }}</i></span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
@@ -101,6 +109,9 @@
                                                         <label class="form-label" for="form3Examplev2">Vehicle Make</label>
                                                         <input type="text" id="v_make" name="v_make"
                                                             class="form-control form-control-lg" />
+                                                        @error('v_make')
+                                                            <span style="color: red;font-size:0.8em"><i>{{ $message }}</i></span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 mb-4 pb-2">
@@ -125,6 +136,9 @@
                                                             No</label>
                                                         <input type="text" id="license_plate" name="license_plate"
                                                             class="form-control form-control-lg" />
+                                                        @error('license_plate')
+                                                            <span style="color: red;font-size:0.8em"><i>{{ $message }}</i></span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
@@ -172,7 +186,7 @@
                                                 <div>No of Slots : </div>
                                             </div>
                                             <div class="col-md-6 ">
-                                                <div><b>{{ $slots_count }}</b></div>
+                                                <div><b>{{ $count_slots }}</b></div>
                                             </div>
                                         </div>
                                     </div>

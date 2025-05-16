@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Slot extends Model
 {
     use HasFactory;
+
+    protected $table = 'all_slots';
 }

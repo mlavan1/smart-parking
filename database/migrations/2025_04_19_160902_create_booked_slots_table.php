@@ -16,7 +16,7 @@ return new class extends Migration
             $table-> unsignedBigInteger('booking_id')->nullable();
             $table-> unsignedBigInteger('slot_id')->nullable();
             $table->foreign('booking_id')->references('id')->on('bookings')->onDelete('cascade');
-            $table->foreign('slot_id')->references('id')->on('slots')->onDelete('cascade');
+            $table->foreign('slot_id')->references('id')->on('all_slots')->onDelete('cascade');
             $table->timestamps();
         });
     }

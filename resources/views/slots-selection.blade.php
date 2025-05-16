@@ -28,7 +28,7 @@
                     $preselectedSlots = session('selected_slots', []);
                 @endphp
                 @foreach ($slots as $key => $slot)
-                    <div class="slot {{ $slot->status === 'open' ? 'open' : ($slot->status === 'parked' ? 'booked' : 'pending') }}"
+                    <div class="slot {{ $slot->status === 'open' ? 'open' : ($slot->status === 'booked' ? 'booked' : 'pending') }}"
                         data-id="{{ $slot->name }}">
                         {{ $slot->name }}
                     </div>

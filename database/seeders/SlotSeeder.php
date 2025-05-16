@@ -23,8 +23,9 @@ class SlotSeeder extends Seeder
                 $slots[] = [
                     'id'         => $i,
                     'user_id'    => 1,
+                    'parking_lot_id' => 2,
                     'section_id' => 1,
-                    'status'     => 'parked',
+                    'status'     => 'booked',
                     'name'       => 'A' . $i,
                     'created_at' => $now,
                     'updated_at' => $now,
@@ -34,6 +35,7 @@ class SlotSeeder extends Seeder
                 $slots[] = [
                 'id'         => $i,
                 'user_id'    => 1,
+                'parking_lot_id' => 2,
                 'section_id' => 1,
                 'status'     => 'open',
                 'name'       => 'A' . $i,
@@ -44,6 +46,6 @@ class SlotSeeder extends Seeder
 
         }
 
-        DB::table('slots')->insert($slots);
+        DB::table('all_slots')->insert($slots);
     }
 }

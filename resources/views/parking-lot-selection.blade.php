@@ -13,7 +13,8 @@
     </div>
     <div class="container parking_container">
         <h1 class="ctm_heading">Parking Lot Selection {{ 'in ' . $location_name[0] }}</h1>
-
+        <span style="color: red;font-weight:600">Please select a parking lot</span>
+        <hr>
         <form id="bookingForm" class="form_container" method="get" action="{{ route('slots.view') }}">
             @csrf
             <input type="hidden" name="location_id" value="{{ request('location_id') }}">

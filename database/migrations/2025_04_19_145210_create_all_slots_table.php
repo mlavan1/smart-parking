@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('slots', function (Blueprint $table) {
+        Schema::create('all_slots', function (Blueprint $table) {
             $table->id();
-            $table-> unsignedBigInteger('user_id')->nullable();
-            $table-> unsignedBigInteger('parking_lot_id')->nullable();
-            $table-> unsignedBigInteger('section_id')->nullable();
-            $table->enum('status', ['booked', 'to_arrive', 'parked', 'open', 'available', 'not_available'])->default('open');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('parking_lot_id');
+            $table->string('section_id')->default(1);
+            $table->enum('status', ['booked', 'parked', 'open', 'hold'])->default('open');
             $table->string('name')->unique();
             $table->timestamps();
+
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('parking_lot_id')->references('id')->on('parking_lots')->onDelete('cascade');
-            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
         });
     }
 
