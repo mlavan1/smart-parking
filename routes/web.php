@@ -12,6 +12,10 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GateKeeper\GateKeeperController;
+use App\Http\Controllers\User\UserBookingController;
+use App\Http\Controllers\Vendor\VendorController as VendorVendorController;
+use App\Models\User;
 
 // =====================
 //     PUBLIC ROUTES
@@ -26,9 +30,9 @@ Route::post('/proceed-payment',[BookingController::class, 'proceedToPay'])->name
 Route::get('/payment-success',[BookingController::class, 'successPayment'])->name('book.success');
 Route::get('/payment-reject',[BookingController::class, 'rejectPayment'])->name('book.reject');
 
-// =====================
-//     AUTHENTICATION ROUTES
-// =====================
+// =========================
+//   AUTHENTICATION ROUTES
+// =========================
 
 
 Route::middleware('auth')->group(function () {
@@ -43,9 +47,9 @@ Route::middleware('auth')->group(function () {
 });
 
 
-// ====================
-//     ADMIN ROUTES
-// ====================
+// =========================
+//        ADMIN ROUTES
+// =========================
 
 // SLOTS
 
@@ -84,6 +88,36 @@ Route::post('/bookings/{id}/update-date', [ActiveBookingsController::class, 'upd
 // PAST BOOKING
 
 Route::get('/bookings-past', [PastBookingController::class, 'viewPastBooking'])->name('admin.bookings.past');
+
+
+// =========================
+//        USER ROUTES
+// =========================
+
+// SLOTS
+
+Route::get('/user-bookings', [UserBookingController::class, 'viewUserBookings'])->name('user.bookings');
+Route::get('/user-vehicles', [UserBookingController::class, 'viewUserVehicles'])->name('user.vehicles');
+
+// ==========================
+//     GATE KEEPER ROUTES
+// ==========================
+
+// SLOTS
+
+Route::post('/keeper-accept', [GateKeeperController::class, 'acceptVehicle'])->name('keeper.accept');
+Route::post('/keeper-reject', [GateKeeperController::class, 'rejectVehicle'])->name('keeper.exit');
+
+// ==========================
+//     VENDOR ROUTES
+// ==========================
+
+// SLOTS
+
+Route::get('/vendor-slots', [VendorVendorController::class, 'viewSlots'])->name('vendor.slots');
+Route::get('/vendor-lots', [VendorVendorController::class, 'viewLots'])->name('vendor.lots');
+
+
 
 // AUTH ROUTES
 require __DIR__.'/auth.php';

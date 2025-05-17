@@ -180,6 +180,7 @@ class BookingController extends Controller
     {
         try {
             // dd(Session::all());
+            DB::beginTransaction();
             $booking_details = Session::get('booking_details');
             $person_details = Session::get('personal_details');
             $selectedSlots = Session::get('selected_slots');
@@ -206,6 +207,7 @@ class BookingController extends Controller
             $booking = new Booking();
             $booking->user_id = Auth::id();
             $booking->vehicle_id = $vehicle->id;
+            $booking->parking_lot_id = $booking_details['lot_id'];
             $booking->name = $person_details['full_name'];
             $booking->date_time = Carbon::parse($booking_details['date'] . ' ' .  $booking_details['time']);
             $booking->status = 'active';
@@ -227,11 +229,16 @@ class BookingController extends Controller
                 }
             }
 
-            Session::forget(['booking_details', 'personal_details', 'selected_slots', ]);
-            return view('payment_success');
-        } catch (\Exception $e) {
-            Log::info("Error==>" . $e);
 
+            Session::forget(['booking_details', 'personal_details', 'selected_slots', ]);
+            DB::commit();
+            return view('payment_success');
+
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error("Booking failed: " . $e->getMessage());
+            return view('payment_reject');
         }
     }
 }

@@ -26,7 +26,7 @@
   <link href="{{url('')}}/admin/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="{{url('')}}/admin/assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
-  <!-- Template Main CSS File -->
+  <!-- Main CSS File -->
   <link href="{{url('')}}/admin/assets/css/style.css" rel="stylesheet">
 
 </head>
@@ -38,7 +38,9 @@
   <!-- ======= Sidebar ======= -->
     @include('vendor.components.sidebar')
 
-    @yield('main')
+   <main id="main" class="main">
+     @yield('main')
+   </main>
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -52,7 +54,7 @@
   <script src="{{url('')}}/admin/assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="{{url('')}}/admin/assets/vendor/php-email-form/validate.js"></script>
 
-  <!-- Template Main JS File -->
+  <!-- Main JS File -->
   <script src="{{url('')}}/admin/assets/js/main.js"></script>
 
 </body>

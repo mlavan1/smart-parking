@@ -17,9 +17,9 @@ class SlotController extends Controller
     public function viewSlots()
     {
         $all_sections = DB::table('sections')->get();
-        $all_slots = DB::table('slots')
-            ->join('sections', 'slots.section_id', '=', 'sections.id')
-            ->select('slots.id', 'slots.name', 'sections.section_name', 'sections.id as section_id', 'slots.status')
+        $all_slots = DB::table('all_slots')
+            ->join('sections', 'all_slots.section_id', '=', 'sections.id')
+            ->select('all_slots.id', 'all_slots.name', 'sections.section_name', 'sections.id as section_id', 'all_slots.status')
             ->get();
         return view('admin.add-slots', compact('all_slots', 'all_sections'));
     }

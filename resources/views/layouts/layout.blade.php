@@ -22,7 +22,7 @@
     <!-- fonts style -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700|Roboto:400,700&display=swap" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+    <!-- Custom styles -->
     <link href="{{ url('') }}/assets/css/style.css" rel="stylesheet" />
 
     <!-- responsive style -->

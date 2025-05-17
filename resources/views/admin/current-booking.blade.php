@@ -26,7 +26,7 @@
 
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-body" >
+                    <div class="card-body">
                         <h5 class="card-title">All Slots</h5>
 
                         <table class="table datatable">
@@ -48,52 +48,56 @@
                             <tbody>
                                 @foreach ($all_bookings as $key => $booking)
                                     <tr>
-                                        <td>{{ $key+1 }}</td>
+                                        <td>{{ $key + 1 }}</td>
                                         <td>
-                                            {{ $booking->slot_owner_type == "admin" ? 'Company' : 'Vendor' }}
+                                            {{ $booking->slot_owner_type == 'admin' ? 'Company' : 'Vendor' }}
                                         </td>
 
                                         <td>{{ $booking->booking_user_name }}</td>
                                         <td>
                                             @foreach (explode(',', $booking->slot_names) as $slot)
-                                            <span style="background: orange; border-radius: 5px; padding: 2px 6px; color: rgb(0, 0, 0); margin-right: 4px; display: inline-block;font-size:0.7em;box-shadow:2px 2px 3px rgba(0,0,0,0.1)">
-                                                {{ trim($slot) }}
-                                            </span>
-                                        @endforeach
+                                                <span
+                                                    style="background: orange; border-radius: 5px; padding: 2px 6px; color: rgb(0, 0, 0); margin-right: 4px; display: inline-block;font-size:0.7em;box-shadow:2px 2px 3px rgba(0,0,0,0.1)">
+                                                    {{ trim($slot) }}
+                                                </span>
+                                            @endforeach
 
                                         </td>
                                         <td>{{ \Carbon\Carbon::parse($booking->date_time)->format('jS F h:ia') }}</td>
                                         <td>{{ $booking->vehicle_details }}</td>
                                         <td>{{ $booking->license_plate }}</td>
                                         <td>{{ $booking->contact_number }}</td>
-                                        <td><span class="badge {{ $booking->status=="active"? 'bg-success':'bg-danger' }} bg-success">{{ $booking->status }}</span></td>
+                                        <td><span
+                                                class="badge {{ $booking->status == 'active' ? 'bg-success' : 'bg-danger' }} bg-success">{{ $booking->status }}</span>
+                                        </td>
                                         <td>
                                             <a type="button" class="btn btn-sm btn-warning edit-slot-btn"
                                                 href="{{ route('bookings.editDate', $booking->id) }}"
-                                                data-id="{{ $booking->user_id }}"
-                                                data-name="{{ $booking->user_id }}"
+                                                data-id="{{ $booking->user_id }}" data-name="{{ $booking->user_id }}"
                                                 data-section="{{ $booking->user_id }}">
                                                 <i class="bi bi-calendar-event"></i>
                                             </a>
                                             @if ($booking->status == 'active')
-                                            {{-- Cancel Button --}}
-                                            <form action="{{ route('bookings.cancel', $booking->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                <button type="submit" class="btn btn-sm btn-danger"
-                                                    onclick="return confirm('Are you sure you want to cancel this booking?')">
-                                                    <i class="bi bi-x-circle"></i>
-                                                </button>
-                                            </form>
-                                        @elseif ($booking->status == 'cancelled')
-                                            {{-- Accept/Reactivate Button --}}
-                                            <form action="{{ route('bookings.accept', $booking->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                <button type="submit" class="btn btn-sm btn-success"
-                                                    onclick="return confirm('Are you sure you want to reactivate this booking?')">
-                                                    <i class="bi bi-check-circle"></i>
-                                                </button>
-                                            </form>
-                                        @endif
+                                                {{-- Cancel Button --}}
+                                                <form action="{{ route('bookings.cancel', $booking->id) }}" method="POST"
+                                                    style="display:inline;">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-sm btn-danger"
+                                                        onclick="return confirm('Are you sure you want to cancel this booking?')">
+                                                        <i class="bi bi-x-circle"></i>
+                                                    </button>
+                                                </form>
+                                            @elseif ($booking->status == 'cancelled')
+                                                {{-- Accept/Reactivate Button --}}
+                                                <form action="{{ route('bookings.accept', $booking->id) }}" method="POST"
+                                                    style="display:inline;">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-sm btn-success"
+                                                        onclick="return confirm('Are you sure you want to reactivate this booking?')">
+                                                        <i class="bi bi-check-circle"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -108,18 +112,18 @@
     </section>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function () {
-        $('.edit-slot-btn').on('click', function () {
+        $(document).ready(function() {
+            $('.edit-slot-btn').on('click', function() {
 
-            var slotId = $(this).data('id');
-            var slotName = $(this).data('name');
-            var sectionId = $(this).data('section');
+                var slotId = $(this).data('id');
+                var slotName = $(this).data('name');
+                var sectionId = $(this).data('section');
 
-            $('#slot-id').val(slotId);
-            $('#slot-name-input').val(slotName);
-            $('#section-select').val(sectionId);
-            $('#submit-btn').text('Update Slot');
+                $('#slot-id').val(slotId);
+                $('#slot-name-input').val(slotName);
+                $('#section-select').val(sectionId);
+                $('#submit-btn').text('Update Slot');
+            });
         });
-    });
     </script>
 @endsection

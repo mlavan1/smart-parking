@@ -17,8 +17,8 @@ class ActiveBookingsController extends Controller
             ->leftJoin('users', 'users.id', '=', 'bookings.user_id')
             ->leftJoin('vehicles', 'vehicles.id', '=', 'bookings.vehicle_id')
             ->leftJoin('booked_slots', 'booked_slots.booking_id', '=', 'bookings.id')
-            ->leftJoin('slots', 'slots.id', '=', 'booked_slots.slot_id')
-            ->leftJoin('users as slot_owners', 'slot_owners.id', '=', 'slots.user_id')
+            ->leftJoin('all_slots', 'all_slots.id', '=', 'booked_slots.slot_id')
+            ->leftJoin('users as slot_owners', 'slot_owners.id', '=', 'all_slots.user_id')
             ->select(
                 'bookings.id',
                 'bookings.user_id',
@@ -26,8 +26,8 @@ class ActiveBookingsController extends Controller
                 'bookings.date_time',
                 'users.name as booking_user_name',
                 DB::raw("CONCAT(tbl_vehicles.v_color, ' ', tbl_vehicles.v_make, ' ', tbl_vehicles.v_model) as vehicle_details"),
-                DB::raw("GROUP_CONCAT(tbl_slots.name ORDER BY tbl_slots.name ASC SEPARATOR ', ') as slot_names"),
-                'slots.user_id as user_type',
+                DB::raw("GROUP_CONCAT(tbl_all_slots.name ORDER BY tbl_all_slots.name ASC SEPARATOR ', ') as slot_names"),
+                'all_slots.user_id as user_type',
                 'users.contact_number',
                 'vehicles.license_plate',
                 'slot_owners.usertype as slot_owner_type'
@@ -35,7 +35,7 @@ class ActiveBookingsController extends Controller
             ->where('bookings.date_time', '>', Carbon::now())
             ->groupBy(
                 'bookings.id',
-                'slots.user_id',
+                'all_slots.user_id',
                 'users.name',
                 'users.contact_number',
                 'bookings.user_id',
