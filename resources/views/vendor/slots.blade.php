@@ -34,13 +34,13 @@
                             @csrf
                             <input type="hidden" name="slot_id" id="slot-id">
 
-                            <label class="form-label">Section</label>
+                            <label class="form-label">Location</label>
                             <div class="row mb-3">
                                 <div class="col-sm-12">
                                     <select class="form-select" name="section_id" id="section-select">
-                                        <option selected disabled>Select a section</option>
-                                        @foreach ($all_sections as $section)
-                                            <option value="{{ $section->id }}">{{ $section->section_name }}</option>
+                                        <option selected disabled>Select a location</option>
+                                        @foreach ($all_parking_lots as $lot)
+                                            <option value="{{ $lot->id }}">{{ $lot->name }} - {{ $lot->location_name }}</option>
                                         @endforeach
                                     </select>
                                     @error('section_id')
@@ -89,15 +89,16 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {{-- {{ dd($all_slots) }} --}}
                                 @foreach ($all_slots as $slots)
                                     <tr>
                                         <td>{{ $slots->name }}</td>
-                                        <td>{{ $slots->section_name }}</td>
+                                        <td>{{ $slots->name }}</td>
                                         <td><span class="badge bg-success">{{ $slots->status }}</span></td>
                                         <td>
                                             <a type="button" class="btn btn-sm btn-warning edit-slot-btn"
                                                 data-id="{{ $slots->id }}" data-name="{{ $slots->name }}"
-                                                data-section="{{ $slots->section_id }}">
+                                                data-section="{{ $slots->id }}">
                                                 <i class=" bi bi-pencil-square"></i></a>
                                             <form action="{{ route('slots.delete', $slots->id) }}" method="POST"
                                                 style="display:inline;">
@@ -105,7 +106,7 @@
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger"
                                                     data-id="{{ $slots->id }}" data-name="{{ $slots->name }}"
-                                                    data-section="{{ $slots->section_id }}"
+                                                    data-section="{{ $slots->id }}"
                                                     onclick="return confirm('Are you sure?')">
                                                     <i class="bi bi-trash-fill"></i></button>
                                             </form>

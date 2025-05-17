@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('name');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->string('address');
-            $table->decimal('hourly_rate',5,1);
-            $table->integer('total_slots');
+            $table->decimal('hourly_rate',6,1);
+            $table->integer('total_slots')->default(0);
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');

@@ -116,6 +116,8 @@ Route::post('/keeper-reject', [GateKeeperController::class, 'rejectVehicle'])->n
 
 Route::get('/vendor-slots', [VendorVendorController::class, 'viewSlots'])->name('vendor.slots');
 Route::get('/vendor-lots', [VendorVendorController::class, 'viewLots'])->name('vendor.lots');
+Route::post('/vendor-lots', [VendorVendorController::class, 'addLot'])->name('vendor.lots.save');
+Route::get('/vendor-bookings', [VendorVendorController::class, 'viewBookings'])->name('vendor.bookings');
 
 
 
