@@ -163,7 +163,7 @@
                     </div>
                     <div class="order-details">
                         <div class="order-number-label">Transaction ID</div>
-                        <div class="order-number">123456789</div>
+                        <div class="order-number" style="font-size: 0.9em">{{ $transaction_id }}</div>
                         <a  class="complement" href="/">   Go back to Home Page</a>
                     </div>
                 </div>

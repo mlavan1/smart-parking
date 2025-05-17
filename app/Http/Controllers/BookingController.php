@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 use function Laravel\Prompts\select;
 
@@ -115,7 +116,7 @@ class BookingController extends Controller
             ->first();
         // dd($vehicle);
 
-        return view('details', compact('count_slots', 'time', 'date', 'location_name','vehicle'));
+        return view('details', compact('count_slots', 'time', 'date', 'location_name', 'vehicle'));
     }
 
 
@@ -168,16 +169,14 @@ class BookingController extends Controller
 
             Session::put('personal_details', $request->all());
             return view('payment');
-
         } catch (\Exception $e) {
             Log::info("Error==>" . $e);
         }
-
     }
 
     public function rejectPayment(Request $request)
     {
-        Session::forget(['booking_details', 'personal_details', 'selected_slots', ]);
+        Session::forget(['booking_details', 'personal_details', 'selected_slots',]);
         return view('payment_reject');
     }
 
@@ -193,7 +192,7 @@ class BookingController extends Controller
             $vehicle = Vehicle::where('user_id', Auth::id())
                 ->where('license_plate', $person_details['license_plate'])
                 ->first();
-
+            // dd($vehicle);
             if ($vehicle) {
                 $vehicle->v_make = $person_details['v_make'];
                 $vehicle->v_model = $person_details['v_model'];
@@ -209,13 +208,34 @@ class BookingController extends Controller
                 $vehicle->save();
             }
 
+            $total_amount = 100.0;
+            $slot_details = Slot::whereIn('name', $selectedSlots)->get();
+
+            $slot = DB::table('all_slots')
+                ->join('users', 'all_slots.user_id', '=', 'users.id')
+                ->select('all_slots.*', 'users.usertype')
+                ->where('all_slots.id', $slot_details[0]->id)
+                ->first();
+
             $booking = new Booking();
+
+            if ($slot->usertype === 'admin') {
+                $booking->admin_amount = $total_amount;
+                $booking->vendor_amount = 0;
+            } else {
+                $booking->admin_amount = $total_amount * 0.2;
+                $booking->vendor_amount = $total_amount * 0.8;
+            }
+
+            $transaction_id = $this->generateTransactionId();
             $booking->user_id = Auth::id();
             $booking->vehicle_id = $vehicle->id;
             $booking->parking_lot_id = $booking_details['lot_id'];
             $booking->name = $person_details['full_name'];
+            $booking->total_amount = $total_amount;
             $booking->date_time = Carbon::parse($booking_details['date'] . ' ' .  $booking_details['time']);
             $booking->status = 'active';
+            $booking->transaction_id = $transaction_id;
             $booking->created_at = now();
             $booking->updated_at = now();
             $booking->save();
@@ -235,15 +255,18 @@ class BookingController extends Controller
             }
 
 
-            Session::forget(['booking_details', 'personal_details', 'selected_slots', ]);
+            Session::forget(['booking_details', 'personal_details', 'selected_slots',]);
             DB::commit();
-            return view('payment_success');
-
-
+            return view('payment_success', compact('transaction_id'));
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("Booking failed: " . $e->getMessage());
             return view('payment_reject');
         }
+    }
+
+    private function generateTransactionId()
+    {
+        return 'SMRT-' . date('Ymd-His') . '-' . Str::upper(Str::random(6));
     }
 }

@@ -13,12 +13,16 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('parking_lot_id');
             $table->unsignedBigInteger('vehicle_id');
-            $table->string('name')->nullable();
-            $table->dateTime('date_time')->nullable();
-            $table->enum('status',['active','cancelled','completed']);
+            $table->string('name');
+            $table->string('transaction_id');
+            $table->dateTime('date_time');
+            $table->decimal('total_amount', 10, 2);
+            $table->decimal('admin_amount', 10, 2);
+            $table->decimal('vendor_amount', 10, 2);
+            $table->enum('status', ['active', 'cancelled', 'completed'])->default('active');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('parking_lot_id')->references('id')->on('parking_lots')->onDelete('cascade');
             $table->foreign('vehicle_id')->references('id')->on('vehicles')->onDelete('cascade');

@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('v_make')->unique()->nullable();
+            $table->string('v_make')->nullable();
             $table->string('v_model')->nullable();
             $table->string('v_color')->nullable();
-            $table->string('license_plate')->nullable();
+            $table->string('license_plate')->unique()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

@@ -44,6 +44,45 @@
     <script>
         const preselectedSlots = @json($preselectedSlots ?? []);
 
+        // FOR SELECTING MORE THAN ONE SLOT
+
+        // $(document).ready(function() {
+        //     const $slots = $(".slot.open");
+        //     const $bookButton = $("#bookButton");
+        //     const $selectedSlotsInput = $("#selectedSlots");
+        //     let selectedSlots = [];
+
+        //     if (preselectedSlots.length > 0) {
+        //         preselectedSlots.forEach(slotId => {
+        //             const $slotEl = $(`.slot[data-id="${slotId}"]`);
+        //             if ($slotEl.length) {
+        //                 $slotEl.addClass("selected");
+        //                 selectedSlots.push(slotId);
+        //             }
+        //         });
+
+        //         $selectedSlotsInput.val(selectedSlots.join(","));
+        //         $bookButton.prop("disabled", selectedSlots.length === 0);
+        //     }
+
+        //     $slots.on("click", function() {
+        //         const slotId = $(this).data("id");
+
+        //         if (selectedSlots.includes(slotId)) {
+        //             selectedSlots = selectedSlots.filter(id => id !== slotId);
+        //             $(this).removeClass("selected");
+        //         } else {
+        //             selectedSlots.push(slotId);
+        //             $(this).addClass("selected");
+        //         }
+
+        //         $selectedSlotsInput.val(selectedSlots.join(","));
+        //         $bookButton.prop("disabled", selectedSlots.length === 0);
+        //     });
+        // });
+
+        // FOR SELECTING ONLY ONE SLOT
+
         $(document).ready(function() {
             const $slots = $(".slot.open");
             const $bookButton = $("#bookButton");
@@ -51,13 +90,14 @@
             let selectedSlots = [];
 
             if (preselectedSlots.length > 0) {
-                preselectedSlots.forEach(slotId => {
-                    const $slotEl = $(`.slot[data-id="${slotId}"]`);
-                    if ($slotEl.length) {
-                        $slotEl.addClass("selected");
-                        selectedSlots.push(slotId);
-                    }
-                });
+
+                const slotId = preselectedSlots[0];
+                const $slotEl = $(`.slot[data-id="${slotId}"]`);
+
+                if ($slotEl.length) {
+                    $slotEl.addClass("selected");
+                    selectedSlots = [slotId];
+                }
 
                 $selectedSlotsInput.val(selectedSlots.join(","));
                 $bookButton.prop("disabled", selectedSlots.length === 0);
@@ -65,13 +105,14 @@
 
             $slots.on("click", function() {
                 const slotId = $(this).data("id");
+                const wasSelected = $(this).hasClass("selected");
 
-                if (selectedSlots.includes(slotId)) {
-                    selectedSlots = selectedSlots.filter(id => id !== slotId);
-                    $(this).removeClass("selected");
-                } else {
-                    selectedSlots.push(slotId);
+                $slots.removeClass("selected");
+                selectedSlots = [];
+
+                if (!wasSelected) {
                     $(this).addClass("selected");
+                    selectedSlots.push(slotId);
                 }
 
                 $selectedSlotsInput.val(selectedSlots.join(","));

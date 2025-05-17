@@ -28,7 +28,7 @@
                                     <th>No.</th>
                                     <th>Parking Lot Name</th>
                                     <th>Location</th>
-                                    <th>Slot/s</th>
+                                    <th>Slots</th>
                                     <th>Date and Time</th>
                                     <th>Vehicle Details</th>
                                     <th>License Plate</th>

@@ -33,6 +33,7 @@
                         <form method="POST" action="{{ route('vendor.lots.save') }}">
                             @csrf
                             <input type="hidden" name="lot_id" id="lot-id">
+                            <input type="hidden" name="location_id" id="location-id">
 
                             <div class="row">
                                 <div class="col-12">
@@ -118,6 +119,7 @@
                                                 data-address="{{ $lot->address }}"
                                                 data-hourly_rate="{{ $lot->hourly_rate }}"
                                                 data-location_name="{{ $lot->location_name }}"
+                                                data-location_id="{{ $lot->location_id }}"
                                                 >
                                                 <i class=" bi bi-pencil-square"></i></a>
                                             {{-- <form action="{{ route('lot.delete', $lot->id) }}" method="POST"
@@ -152,8 +154,10 @@
                 var lotAddress = $(this).data('address');
                 var lotRate = $(this).data('hourly_rate');
                 var locationName = $(this).data('location_name');
+                var location_id = $(this).data('location_id');
 
                 $('#lot-id').val(lotId);
+                $('#location-id').val(location_id);
                 $('#lot-name-input').val(lotName);
                 $('#lot-address-input').val(lotAddress);
                 $('#lot-hourly-rate-input').val(lotRate);

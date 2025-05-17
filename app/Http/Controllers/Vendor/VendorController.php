@@ -33,7 +33,7 @@ class VendorController extends Controller
     public function viewLots()
     {
         $all_lots = DB::table('parking_lots')
-            ->select('parking_lots.*','locations.location_name')
+            ->select('parking_lots.*','locations.id as location_id','locations.location_name')
             ->join('users', 'users.id', '=', 'parking_lots.user_id')
             ->join('locations', 'locations.id', '=', 'parking_lots.location_id')
             ->where('users.usertype', 'vendor')
@@ -52,9 +52,10 @@ class VendorController extends Controller
     public function addLot(Request $request)
     {
         try {
-            // dd($request->all());
+            // dd($request->lot_id,$request->location_id);
+
             $validator = Validator::make($request->all(), [
-                'lot_name' => ['required', 'string', 'max:255', $request->filled('lot_id') ? 'unique:parking_lots,name,' . $request->lot_id : 'unique:parking_lots,name'],
+                'lot_name' => ['required', 'string', 'max:255', Rule::unique('parking_lots', 'name')->ignore($request->lot_id)],
                 'lot_address' => 'required|string|max:255',
                 'location_name' => [
                     'required',
@@ -62,10 +63,12 @@ class VendorController extends Controller
                     'max:255',
                     Rule::unique('locations')->where(function ($query) use ($request) {
                         return $query->where(DB::raw('LOWER(location_name)'), strtolower($request->location_name));
-                    }),
+                    })->ignore($request->location_id),
                 ],
                 'hourly_rate' => 'required|numeric|min:0',
                 'lot_id'   => 'nullable|exists:parking_lots,id',
+                'location_id' => 'nullable|exists:locations,id'
+
             ], [
                 'lot_name.required' => "Parking Lot name is required",
                 'lot_address.required' => "Parking Lot address is required",
@@ -77,9 +80,15 @@ class VendorController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput();
             }
 
+            if ($request->filled('location_id')) {
+            $location = Location::find($request->location_id);
+            $location->location_name = Str::title($request->location_name);
+            $location->save();
+        } else {
             $location = Location::create([
                 'location_name' => Str::title($request->location_name),
             ]);
+        }
 
             if ($request->filled('lot_id')) {
                 $lot = ParkingLots::find($request->lot_id);
@@ -92,7 +101,7 @@ class VendorController extends Controller
             $lot->address = Str::title($request->lot_address);
             $lot->hourly_rate = $request->hourly_rate;
             $lot->save();
-            return redirect()->back()->with('success', 'Vendor added successfully!');
+            return redirect()->back()->with('success', $request->filled('lot_id') ? 'Vendor updated successfully!' : 'Vendor added successfully!');
         } catch (\Exception $e) {
             \Log::info("message - " . $e->getMessage());
         }

@@ -4,17 +4,17 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link " href="home">
+            <a class="nav-link {{ request()->is('home') ? 'active' : 'collapsed' }}" href="home">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
         </li><!-- End Dashboard Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+            <a class="nav-link {{ request()->is('slots') ? 'active' : 'collapsed' }}" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-menu-button-wide"></i><span>Company</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <ul id="icons-nav" class="nav-content {{ request()->is('slots') ? 'active' : 'collapsed' }} " data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="slots">
                         <i class="bi bi-circle"></i><span>Slots</span>
@@ -30,10 +30,10 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#bookings-nav" data-bs-toggle="collapse" href="#">
+            <a class="nav-link {{ request()->is('bookings-current') ? 'active' : 'collapsed' }}" data-bs-target="#bookings-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-calendar-week"></i><span>Bookings</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="bookings-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <ul id="bookings-nav" class="nav-content {{ request()->is('/bookings-current') ? 'active' : 'collapsed' }} " data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="bookings-current">
                         <i class="bi bi-circle"></i><span>Active</span>
