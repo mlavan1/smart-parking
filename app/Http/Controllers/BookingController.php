@@ -109,8 +109,13 @@ class BookingController extends Controller
         $location_name = DB::table('locations')
             ->where('locations.id', $location_id)
             ->pluck('locations.location_name');
+        $vehicle = DB::table('vehicles')
+            ->join('users', 'users.id', '=', 'vehicles.user_id')
+            ->where('vehicles.user_id', Auth::id())
+            ->first();
+        // dd($vehicle);
 
-        return view('details', compact('count_slots', 'time', 'date', 'location_name'));
+        return view('details', compact('count_slots', 'time', 'date', 'location_name','vehicle'));
     }
 
 

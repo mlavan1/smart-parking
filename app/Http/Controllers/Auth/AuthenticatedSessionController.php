@@ -31,7 +31,6 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         if (Session::has('selected_slots') && Session::has('url.intended')){
-            // $preselectedSlots = session('selected_slots', []);
             return redirect()->route('booking.details');
         }
 
